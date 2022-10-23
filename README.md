@@ -1,1 +1,1 @@
-# java-team-project
+# 자바 미니 팀 프로젝트
