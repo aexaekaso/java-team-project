@@ -9,12 +9,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-//수정사항
-//1. 회원가입도 Account 클래스를 거쳐가도록
-//2. 뒤로가기 및 잘못 입력해도 다시 재입력할 수 있도록
-//3. 비밀번호 보여줄 때 *** 이런 식으로
-//4. 비밀번호 찾기에서 바로 비밀번호 보여줘도 ㄱㅊ은지?
-
 public class Home {	
 	static DB db = new DB();
 	static Customer customer = new Customer();
