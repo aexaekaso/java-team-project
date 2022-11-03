@@ -9,62 +9,116 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class Home {
-	static Connection CN = null;
-	static PreparedStatement PS = null;
-	static ResultSet RS = null;
+//수정사항
+//1. 회원가입도 Account 클래스를 거쳐가도록
+//2. 뒤로가기 및 잘못 입력해도 다시 재입력할 수 있도록
+//3. 비밀번호 보여줄 때 *** 이런 식으로
+//4. 비밀번호 찾기에서 바로 비밀번호 보여줘도 ㄱㅊ은지?
+
+public class Home {	
+	static DB db = new DB();
+	static Customer customer = new Customer();
+	static Account account = new Account();
 	static Scanner scan = new Scanner(System.in);
 	static String[] userData = new String[4]; //이름, 아이디, 비밀번호, 전화번호를 담을 배열
 	
-	//데이터베이스 연결
-	public static void connectDB() {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			String url = "jdbc:mysql://localhost:3306/cafeorder?characterEndofing=UTF-8&serverTimezone=UTC";
-			CN = DriverManager.getConnection(url, "test", "1234");
-			System.out.println("*** 데이터베이스 연결 성공 ***");  //나중에 제거
-		} catch(ClassNotFoundException e) {
-			e.printStackTrace();  //JDBC Driver 로드 실패
-		} catch(SQLException e) {
-			e.printStackTrace();  //데이터베이스 연결 실패
-		} catch (Exception e) {
-			e.printStackTrace();  //그 외 모든 예외
-		}
-	}
 	
-	//앱 실행
+	//1. 앱 실행
 	public static void main(String[] args) {
 		boolean sw = true;
 		while (sw) {
 			System.out.println("[1. 로그인]\t[2. 회원가입]");
 			System.out.print(">>> ");
-			switch (scan.nextInt()) {
-				case 1: login(); sw = false; break;
-				case 2: signUp(); sw = false; break;
+			switch (scan.nextLine()) {
+				case "1": login(); sw = false; break;
+				case "2": signUp(); sw = false; break;
 				default: System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
 			}
 		}
 	}
 	
-	//로그인
+	
+	//2-1. 로그인
 	public static void login() {
 		System.out.println("========== 로그인 ==========");
+		boolean sw = true;
+		while (sw) {
+			System.out.println("[1. 아이디/비밀번호 입력]\t[2. 아이디/비밀번호 찾기]");
+			System.out.print(">>> ");
+			switch (scan.nextLine()) {
+				case "1": inputIDPWD(); sw = false; break;
+				case "2": searchIDPWD(); sw = false; break;
+				default: System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+			}
+		}
+	}
+	
+	public static void inputIDPWD() {
+		System.out.println("========== 구현 예정 ==========");
+	}
+	
+	public static void searchIDPWD() {
+		System.out.println("========== 회원정보 찾기 ==========");
+		boolean sw = true;
+		while (sw) {
+			System.out.println("[1. 아이디 찾기]\t[2. 비밀번호 찾기]");
+			System.out.print(">>> ");
+			switch (scan.nextLine()) {
+				case "1": searchID(); sw = false; break;
+				case "2": searchPWD(); sw = false; break;
+				default: System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+			}
+		}
+	}
+	
+	public static void searchID() {
+		db.connectDB();
 		
+		System.out.println("========== 아이디 찾기 ==========");
+		System.out.println("이름을 입력해주세요.");
+		System.out.print(">>> ");
+		String name = scan.nextLine();
+		System.out.println("전화번호를 입력해주세요. 구분 단위는 '-' 입니다.");
+		System.out.print(">>> ");
+		String phone = scan.nextLine();
+		
+		customer.setName(name);
+		customer.setPhone(phone);
+		account.findAccountID(customer.getName(), customer.getPhone());
 	}
 	
-	//회원가입
+	public static void searchPWD() {
+		db.connectDB();
+		
+		System.out.println("========== 비밀번호 찾기 ==========");
+		System.out.println("이름을 입력해주세요.");
+		System.out.print(">>> ");
+		String name = scan.nextLine();
+		System.out.println("아이디를 입력해주세요.");
+		System.out.print(">>> ");
+		String id = scan.nextLine();
+		
+		customer.setName(name);
+		customer.setPhone(id);
+		account.findAccountPWD(customer.getName(), customer.getPhone());
+	}
+	
+	
+	//2-2. 회원가입
 	public static void signUp() {
-		scan.nextLine();
-		connectDB();
+		db.connectDB();
+		
 		System.out.println("========== 회원가입 ==========");
-		setName();
-		setID();
-		setPWD();
-		setPhone();
-		addAccount();
+		saveName();
+		saveID();
+		savePWD();
+		savePhone();
+		
+		Account account1 = new Account(userData[1], userData[0], userData[2], userData[3]);
+		account1.addAccount();
 	}
 	
-	public static void setName() {
+	public static void saveName() {
 		while (true) {
 			//이름 입력 받기
 			System.out.println("이름을 입력해주세요.");
@@ -84,7 +138,7 @@ public class Home {
 		}
 	}
 	
-	public static void setID() {
+	public static void saveID() {
 		save : while (true) {
 			//아이디 입력 받기
 			System.out.println("아이디를 입력해주세요.");
@@ -101,10 +155,10 @@ public class Home {
 			//아이디 중복 체크
 			try {
 				String sql = "select customer_id from customers";
-				PS = CN.prepareStatement(sql);
-				RS = PS.executeQuery();
-				while (RS.next() == true) {
-					if (id.equals(RS.getString("customer_id"))) {
+				db.PS = db.CN.prepareStatement(sql);
+				db.RS = db.PS.executeQuery();
+				while (db.RS.next() == true) {
+					if (id.equals(db.RS.getString("customer_id"))) {
 						System.out.println("이미 존재하는 아이디입니다. 다시 입력해주세요.\n");
 						continue save;
 					}
@@ -119,7 +173,7 @@ public class Home {
 		}
 	}
 	
-	public static void setPWD() {
+	public static void savePWD() {
 		while (true) {
 			//이름 입력 받기
 			System.out.println("비밀번호를 입력해주세요.");
@@ -155,7 +209,7 @@ public class Home {
 		}
 	}
 	
-	public static void setPhone() {
+	public static void savePhone() {
 		while (true) {
 			//전화번호 입력 받기
 			System.out.println("전화번호를 입력해주세요. 구분 단위는 '-' 입니다.");
@@ -172,24 +226,6 @@ public class Home {
 			//userData 배열에 추가
 			userData[3] = phone;
 			break;
-		}
-	}
-	
-	public static void addAccount() {
-		try {
-//			connectDB();
-			String sql = "INSERT INTO customers(customer_id, customer_name, customer_pwd, customer_phone)"
-							+ "VALUES(?, ?, ?, ?)";
-			PS = CN.prepareStatement(sql);
-			for (int i=0; i<userData.length; i++) {
-				PS.setObject(i+1, userData[i]);
-			}
-			PS.executeUpdate();
-	
-			System.out.println("회원가입이 완료되었습니다.");
-			System.out.println(Arrays.toString(userData));
-		} catch (Exception e) {
-			e.printStackTrace(); 
 		}
 	}
 	
