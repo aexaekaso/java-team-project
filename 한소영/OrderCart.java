@@ -1,130 +1,106 @@
-package cafe;
+package cafeProject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Scanner;
+public class OrderCart {
+	//필드 선언
+	public static ArrayList<Product> products; // 여기에 담아서 추후에 결제
+	public static ArrayList<Integer> amount; // 수량
+	public static Queue<Integer> choice = new LinkedList<Integer>();
+	
+	//기본 생성자
+	public OrderCart() {
 
-public class OrderCart { //extends Product 이 클래스도 상속을 받아야하나? // product하고는 같은패키지니까 딱히 뭘 안해도 되는건가.....
+	}
+	
+	//초기화 생성자
+	// static이라서 필요가 없음.
+	
+	//메서드
+	// 1.장바구니에 담는 메서드
+	public void orderCartAdd() throws NumberFormatException, IOException {
+		//bufferedReader
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		//변수선언
+		int inputNum =0; // 코드선택
+		
+		//코드 선택
+		System.out.println("메뉴를 선택하세요>>> \n(코드를 입력하세요 - 숫자)");
+		inputNum = Integer.parseInt(br.readLine());
+		
+		
+	}// orderCartAdd()
+	
+	// 2. 수량을 변경 혹은 삭제하는 메서드
+	public void orderCartChange() {
+		
+	}
+	
+	// 3. 장바구니를 비우는 메서드 // 
+	public void orderCartClear() { // N을 입력했을때
+		products.clear();
+		amount.clear();
+		System.out.println("장바구니가 비워졌습니다.");
+		/* public static ArrayList<Product> products; // 여기에 담아서 추후에 결제
+		public static ArrayList<Integer> amount; // 수량
+		을 1. 비우고 2. 출력을 장바구니비우는 / 에리리스트로 delete */
+	}
+	
+	
+	// 4. 장바구니를 보여주는 메서드
+	public void orderCartShow() { // 2. 장바구니 입력했을 때
+		System.out.println("============장바구니 목록============");
+		System.out.printf("| %-5d | %-15s | %-6d | %-6d |", "번호", "메뉴", "수량", "가격");
+		
+		// String coffeestring="";
+		// String beveragetring="";
+		// String dessertstring="";
+		String temp="";			
+		
+		int no=0;
+		String mene="";
+		int amount1 =0;
+		int price=0;
+		
 
-	//+products : static Arraylist<Product> 
-	//+amount : static Arraylist<Integer> 
-	//+OrderCart()
-	//+orderCartAdd(Product products, int amount)
-	//+orderCartChange(Product products, int amount)
-	//+orderCartClear()
-	//+toString()
-	
-	static Scanner sc = new Scanner(System.in);
-	private static ResultSet rs;
-	static Connection con = null;
-	static int c = 0;  //쿠폰관련
-	
-	public OrderCart() {}
-	
-	public static void OrderCartList() {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			String url = "jdbc:mysql://localhost/cafedb";
-			con = DriverManager.getConnection(url, "3jo", "1234");
-			String sql = "SELECT orderCart_couponcheck, customer_coupon FROM customers where customer_id=?";
-			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, "asd"); //아이디 선택
-			rs = pstmt.executeQuery();
+		for(int i=0; i<amount.size(); i++) {
+			no=products.get(i).code;
+			mene=products.get(i).name;
+			amount1=amount.get(i);
+			price=amount1*products.get(i).price;
 			
-			while(rs.next()) {
-				c = rs.getInt("customer_coupon");
-				System.out.println("======결제======");
-				System.out.println("orderCart 내역");
-				System.out.println("       총 금액");
-				System.out.println("----------------");
-				System.out.println("현재 가지고 있는 쿠폰 수는 "+c+"개");
-//				System.out.println("현재 금액에서 사용할 수 있는 쿠폰 수는 "+c+"개");
-				System.out.println("1. 일반 결제");
-				System.out.println("2. 혼합 결제");
-			}
-			int sel = sc.nextInt();
-			if(sel==1) {
-				paymentNomal();
-			}
-			else if(sel==2) {
-				paymentCoupon();
-			}
-			rs.close();
-			pstmt.close();
-		}catch (ClassNotFoundException e) {
-			e.printStackTrace();
-        }catch (SQLException e) {
-        	e.printStackTrace();
-        }
-	}
-	}
-
+			System.out.printf("| %-5d | %-15s | %-6d | %-6d |", no, mene, amount1, price); 
+			System.out.println("==================================");
+		}
+		//변수에 "번호", "메뉴", "수량", "가격" 불러온다. > 출력
+		
+		
+		//	ArrayList<Product> products = products
+		//for(Product product : products) {
+		//	System.out.println(Product);
+		}
+		
+		// 종류가 구분이 안되니까, 커피,음료,디저트 구분되게 스트링에 담아둠.
+		
+		/* public static ArrayList<Product> products; // 여기에 담아서 추후에 결제
+		public static ArrayList<Integer> amount; // 
+				
+		프로덕트스를 to 스트링으로 와일문으로 불러와서 어마운트도 같이 출력되게
+		
+		3개 커피, 디젙, 음료 .amount  필드, 생성자. 기본 생성자, 초기화생성자. 
+		자식들을 클래스를 생성하게 끔
+		프로덕트 어레이리스트로 클래스가 다르더라도 객체를 만들어서 담아둘수 있게.
+		넣을때, 
+		출력할때는  프로덕트 어레이리스트 클래스는 프로덕트, 자식껄로 넣는다. 클래스 확인해서 > 커피클래스면 커피, 음료면 음료, 디저트면 디저트
+		
+		넣는순서에따라 따라 코드가 달라질 수있다. 문제없다. */ 
+		 
+		
 	
-	
-	
-	
-	
-	
-	
-	//==========================================
-	
-	//+products : static Arraylist<Product> 
-	//+amount : static Arraylist<Integer> 
-	//p674 지네릭 클래스
-	static ArrayList<Product> product = new ArrayList<Product>(); //제품
-	static ArrayList<Integer> amount = new ArrayList<Integer>();
-	
-	
-	// 장바구니
-	//+OrderCart()   
-	
-	product.add(new Product());  // 왜 안되지...ㄴ
-	
-	
-	//+orderCartAdd(Product products, int amount)
-	//상품추가
-	
-	
-	//+orderCartChange(Product products, int amount)
-	//상품수정
-	//.remove(); // 한개삭제
-	
-	//+orderCartClear()
-	//장바구니비우기
-	
-	//.clear(); 리스트 전체 삭제
-	
-	
-	
-	
-	//+toString() 무엇을 해줘야하지  ?
-	@Override 
-	public String toString() {
-		return "OrderCart [code=" + code + ", name=" + name + ", price=" + price + "]";
-	}
-	
-	
-	
-	
-	
-	
-	/*
-	///이런걸로 담아아ㅗ야하나?
-	public int getCode() {  // 그 필드의 첫글자만 대문자
-		return Code;  // 아직 값이 없음  - set에서 담긴것을 리턴시킨다. 
-	}
-	
-	public void setSsn(int Code) {
-		this.Code = Code;  // mian에서 설정된 값을 담음
-	}
-	*/
-
-	
-	
-
 }
