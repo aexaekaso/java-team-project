@@ -3,6 +3,9 @@ package cafeProject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Admin {
 	// 필드
@@ -139,7 +142,7 @@ public class Admin {
 				productCodeCheck(updateCode);
 			} while (run);
 
-		}//while
+		} // while
 
 		System.out.println(); // 안내
 		updatePrice = Integer.parseInt(br.readLine());
@@ -187,7 +190,7 @@ public class Admin {
 				productCodeCheck(deleteCode);
 			} while (run);
 
-		}//while
+		} // while
 
 		// 삭제하기 해야할것************************************************
 
@@ -206,24 +209,117 @@ public class Admin {
 			}//if
 
 	}// productCodeCheck(int productCode)
-
+	
+	// 회원정보를 불러오고, 삭제가 가능함
 	private static void customerChange() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // 입력 받을 준비
-		
-		//변수선언
-		int checkNum =0; // 숫자 입력
-		
-		// 해야할것************************************************
-		
-		
-	}// customerChange()
 
-	private static void income() { // 해야할것************************************************
+		// 변수선언
+		int checkNum = 0; // 숫자 입력
+
+		// 해야할것************************************************
+
+	}// customerChange()
 	
-	} //income()
+	// 판매금액 전부 불러오기 메서드
+	private static void income() { // 해야할것************************************************
+		// Jdbc 객체 생성
+		Jdbc jdbc = new Jdbc();
+
+		// 변수 선언
+		String sql = "SELECT *"; // sql문
+		Product selectProduct = null; // Product 객체
+		String name = ""; // 상품 이름 받기
+		String id = ""; // id 받기
+		int price = 0; // 가격받기
+		int code = 0; // 코드 받기
+		int amount = 0; // 수량 받기
+		Date date = null; //date 받기
+		
+
+		try {
+			// jdbc 드라이버 등록
+			Class.forName(jdbc.driver);
+
+			// db 연결
+			jdbc.con = DriverManager.getConnection(jdbc.url, jdbc.user, jdbc.password);
+
+			System.out.println("연결 성공"); // 확인용, 추후 삭제
+
+			// prepareStatement 객체 생성
+			jdbc.pstmt = jdbc.con.prepareStatement(sql);
+
+			// 입력받은 코드 입력
+			jdbc.pstmt.setInt(1, code);
+
+			// sql 문장을 실행하고 결과를 리턴
+			jdbc.rs = jdbc.pstmt.executeQuery();
+
+			// Product 객체를 만들어서 담기
+
+			if (jdbc.rs.next()) {
+				code1 = jdbc.rs.getInt(jdbc.mysqlCode[0]); // code
+				name1 = jdbc.rs.getString(jdbc.mysqlCode[1]); // name
+				price1 = jdbc.rs.getInt(jdbc.mysqlCode[2]); // price
+
+				switch (menu) {
+				case 1:
+					// 커피 메뉴 담기
+					selectProduct = new Coffee(code1, name1, price1);
+					break;
+				case 2:
+					// 음료 메뉴 담기
+					selectProduct = new Beverage(code1, name1, price1);
+					break;
+				case 3:
+					// 디저트 메뉴 담기
+					selectProduct = new Dessert(code1, name1, price1);
+					break;
+				default:
+					break;
+				}// if.switch
+
+			} // if
+
+		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
+			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+		} catch (SQLException e) {
+			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+		} catch (Exception e) {
+			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+		} finally { // 무조건 실행되는 코드
+			// 연결이 되어 있으면 연결 끊기
+
+			// 사용순서 반대로 닫기
+			if (jdbc.rs != null) {
+				try {
+					jdbc.rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+				}
+			} // if
+
+			if (jdbc.pstmt != null) {
+				try {
+					jdbc.pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+				}
+			} // if
+
+			if (jdbc.con != null) {
+				try {
+					jdbc.con.close();
+				} catch (SQLException e) {
+					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+				}
+			}
+
+		} // try
+	} // income()
 
 	private static void couponValue() {// 해야할것************************************************
-	
-	} //couponValue()
+
+	} // couponValue()
 
 }

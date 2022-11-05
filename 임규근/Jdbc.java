@@ -21,6 +21,7 @@ public class Jdbc {
 	String user = "root"; // 사용자
 	String password = "1234"; // 암호
 	String driver = "com.mysql.cj.jdbc.Driver";
+	String[] mysqlCode;
 
 	// 기본생성자
 	public Jdbc() {
@@ -176,7 +177,7 @@ public class Jdbc {
 	}// delete()
 
 	// =====================================================================================================================
-	// 메뉴선택 번호와 코드를 입력받으면, Product객체를 반환 하는 메서드
+	// 코드를 입력받으면, Product객체를 반환 하는 메서드
 	public static Product selectProduct(int code) {
 		// Jdbc 객체 생성
 		Jdbc jdbc = new Jdbc();
@@ -192,15 +193,18 @@ public class Jdbc {
 		switch (menu) {
 		case 1:
 			// 커피
-			sql = "SELECT * FROM coffee";
+			sql = "SELECT * FROM coffee where ccode = ?";
+			jdbc.mysqlCode = new String[] { "ccode", "cname", "cprice" };
 			break;
 		case 2:
 			// 음료
-			sql = "SELECT * FROM beverage";
+			sql = "SELECT * FROM beverage where bcode = ?";
+			jdbc.mysqlCode = new String[] { "bcode", "bname", "bprice" };
 			break;
 		case 3:
 			// 디저트
-			sql = "SELECT * FROM dessert";
+			sql = "SELECT * FROM dessert where dcode = ?";
+			jdbc.mysqlCode = new String[] { "dcode", "dname", "dprice" };
 			break;
 		default:
 			System.out.println("잘못된 코드입니다.");
@@ -225,40 +229,30 @@ public class Jdbc {
 			jdbc.rs = jdbc.pstmt.executeQuery();
 
 			// Product 객체를 만들어서 담기
-			switch (menu) {
-			case 1:
-				// 커피 메뉴 담기
-				if (jdbc.rs.next()) {
-					code1 = jdbc.rs.getInt("ccode");
-					name1 = jdbc.rs.getString("cname");
-					price1 = jdbc.rs.getInt("cprice");
 
+			if (jdbc.rs.next()) {
+				code1 = jdbc.rs.getInt(jdbc.mysqlCode[0]); //code
+				name1 = jdbc.rs.getString(jdbc.mysqlCode[1]); //name
+				price1 = jdbc.rs.getInt(jdbc.mysqlCode[2]); //price
+
+				switch (menu) {
+				case 1:
+					// 커피 메뉴 담기
 					selectProduct = new Coffee(code1, name1, price1);
-				}
-				break;
-			case 2:
-				// 음료 메뉴 담기
-				if (jdbc.rs.next()) {
-					code1 = jdbc.rs.getInt("bcode");
-					name1 = jdbc.rs.getString("bname");
-					price1 = jdbc.rs.getInt("bprice");
-
+					break;
+				case 2:
+					// 음료 메뉴 담기
 					selectProduct = new Beverage(code1, name1, price1);
-				}
-				break;
-			case 3:
-				// 디저트 메뉴 담기
-				if (jdbc.rs.next()) {
-					code1 = jdbc.rs.getInt("dcode");
-					name1 = jdbc.rs.getString("dname");
-					price1 = jdbc.rs.getInt("dprice");
-
+					break;
+				case 3:
+					// 디저트 메뉴 담기
 					selectProduct = new Dessert(code1, name1, price1);
-				}
-				break;
-			default:
-				break;
-			}
+					break;
+				default:
+					break;
+				}//if.switch
+
+			}//if
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
 			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
@@ -301,7 +295,7 @@ public class Jdbc {
 
 	}// select()
 
-	// 메뉴 출력을 위한 메서드
+	// 메뉴 종류를 선택하고, 출력을 위한 메서드
 	public void SelectProductAll() {
 		// Jdbc 객체 생성
 		Jdbc jdbc = new Jdbc();
@@ -328,23 +322,27 @@ public class Jdbc {
 				// 메뉴 선택
 				menu = Integer.parseInt(jdbc.br.readLine());
 				new OrderCart().choice.add(menu);
-				
+
 				// 처리
 				if (menu == 1) {// 커피
 					sql = "SELECT * FROM coffee";
+					jdbc.mysqlCode = new String[] { "ccode", "cname", "cprice" };
 					menuStr = "커피";
 				} else if (menu == 2) {// 음료
 					sql = "SELECT * FROM beverage";
+					jdbc.mysqlCode = new String[] { "bcode", "bname", "bprice" };
 					menuStr = "음료";
 				} else if (menu == 3) {// 디저트
 					sql = "SELECT * FROM dessert";
+					jdbc.mysqlCode = new String[] { "dcode", "dname", "dprice" };
 					menuStr = "디저트";
 				} else {
 					System.out.println("잘못된 코드입니다.");
 					System.out.println();
 					continue;
 				} // while.if
-
+				
+				jdbc.br.close();
 				break;
 			} // while
 
@@ -368,31 +366,10 @@ public class Jdbc {
 
 			// 처리
 			while (jdbc.rs.next()) {
-				
-				//선택
-				switch (menu) {
-				case 1:
-					// 커피 메뉴 담기
-					code = jdbc.rs.getInt("ccode");
-					name = jdbc.rs.getString("cname");
-					price = jdbc.rs.getInt("cprice");
-					break;
-				case 2:
-					// 음료 메뉴 담기
-					code = jdbc.rs.getInt("bcode");
-					name = jdbc.rs.getString("bname");
-					price = jdbc.rs.getInt("bprice");
-					break;
-				case 3:
-					// 디저트 메뉴 담기
-					code = jdbc.rs.getInt("dcode");
-					name = jdbc.rs.getString("dname");
-					price = jdbc.rs.getInt("dprice");
-					break;
-				default:
-					break;
-				}//swich
-				
+				code = jdbc.rs.getInt(jdbc.mysqlCode[0]); //code
+				name = jdbc.rs.getString(jdbc.mysqlCode[1]); //name
+				price = jdbc.rs.getInt(jdbc.mysqlCode[2]); //price
+
 				product = new Product(code, name, price);
 
 				System.out.println(product.toString());
