@@ -8,7 +8,7 @@ public class Customer {
 	private String phone;
 	private int coupon;
 	
-	//생성자 오버로딩!
+	//생성자
 	public Customer() {};
 	public Customer(String id, String name, String pwd, String phone) {
 		this.id = id;
@@ -57,6 +57,7 @@ public class Customer {
 	}
 	
 	
+	//이것도 잠시 보류...
 	//출력 형태 지정
 	@Override
 	public String toString() {

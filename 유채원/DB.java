@@ -21,11 +21,11 @@ public class DB {
 			System.out.println("*** 데이터베이스 연결 성공 ***");  //나중에 제거
 			
 		} catch(ClassNotFoundException e) {
-			e.printStackTrace();  //JDBC Driver 로드 실패
+			System.out.println("JDBC Driver 로드 실패");
 		} catch(SQLException e) {
-			e.printStackTrace();  //데이터베이스 연결 실패
+			System.out.println("데이터베이스 연결 실패");
 		} catch (Exception e) {
-			e.printStackTrace();  //그 외 모든 예외
+			System.out.println("에러 발생");
 		}
 	}
 	
