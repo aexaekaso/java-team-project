@@ -16,7 +16,7 @@ public class DB {
 	public void connectDB() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String url = "jdbc:mysql://localhost:3306/cafeorder?characterEndofing=UTF-8&serverTimezone=UTC";
+			String url = "jdbc:mysql://cafedb?characterEndofing=UTF-8&serverTimezone=Asia/Seoul";
 			CN = DriverManager.getConnection(url, "test", "1234");
 			System.out.println("*** 데이터베이스 연결 성공 ***");  //나중에 제거
 			
