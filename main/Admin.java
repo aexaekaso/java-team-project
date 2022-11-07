@@ -18,7 +18,7 @@ public class Admin {
 
 	// method
 	// 1. 메뉴관리 메서드
-	public static void productChange() throws NumberFormatException, IOException {
+	public static void productChange() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // 입력 받을 준비
 
 		// 변수 선언
@@ -26,111 +26,114 @@ public class Admin {
 		int menuSelectNum = 0; // 입력 받을 숫자
 		String menuSelectStr = ""; // 입력 받을 코드
 		String guidTmp = "============================";
-		String guidChange = "U. 가격변경\\nD. 메뉴삭제\\nI. 메뉴 추가\\n(U,D,I)코드를 입력해주세요>>> ";
+		String guidChange = "U. 가격변경\nD. 메뉴삭제\nI. 메뉴 추가\n(U,D,I)코드를 입력해주세요>>> ";
 		String guidErr = "잘못된 입력입니다.";
 
-		while (true) {
-			// 안내 출력
-			System.out.println("===메뉴 관리===\n1. 커피관리\n2. 음료 관리\n3. 디저트 관리\n(1~3)숫자를 입력해주세요>>>");
+		try {
+			while (true) {
+				// 안내 출력
+				System.out.println("===메뉴 관리===\n1. 커피관리\n2. 음료 관리\n3. 디저트 관리\n(1~3)숫자를 입력해주세요>>>");
 
-			// 메뉴 입력
-			menuSelectNum = Integer.parseInt(br.readLine());
-			oc.choice.add(menuSelectNum);
+				// 메뉴 입력
+				menuSelectNum = Integer.parseInt(br.readLine());
+				oc.choice.add(menuSelectNum);
 
-			if (menuSelectNum == 1) {// 커피 관리
+				if (menuSelectNum == 1) {// 커피 관리
 
-				while (true) {
-					// 커피 메뉴 출력 메소드
-					oc.SelectCoffeeAll();
+					while (true) {
+						// 커피 메뉴 출력 메소드
+						oc.SelectCoffeeAll();
 
-					// 안내 출력
-					System.out.println(guidTmp);
-					System.out.println(guidChange);
+						// 안내 출력
+						System.out.println(guidTmp);
+						System.out.println(guidChange);
 
-					// 코드 입력받기
-					menuSelectStr = br.readLine();
+						// 코드 입력받기
+						menuSelectStr = br.readLine();
 
-					if (menuSelectStr.equalsIgnoreCase("U")) { // 업데이트
-						productUpdate();
-					} else if (menuSelectStr.equalsIgnoreCase("D")) { // 삭제
-						productDelete();
-					} else if (menuSelectStr.equalsIgnoreCase("I")) { // 추가
-						productInsert();
-					} else {// 코드 다시 입력받기
-						System.out.println(guidErr);
-						continue;
-					} // while.if
+						if (menuSelectStr.equalsIgnoreCase("U")) { // 업데이트
+							productUpdate();
+						} else if (menuSelectStr.equalsIgnoreCase("D")) { // 삭제
+							productDelete();
+						} else if (menuSelectStr.equalsIgnoreCase("I")) { // 추가
+							productInsert();
+						} else {// 코드 다시 입력받기
+							System.out.println(guidErr);
+							continue;
+						} // while.if
 
-					break; // 선택 완료후 빠져나오기
-				} // while 커피 메뉴
+						break; // 선택 완료후 빠져나오기
+					} // while 커피 메뉴
 
-			} else if (menuSelectNum == 2) {// 음료 관리
+				} else if (menuSelectNum == 2) {// 음료 관리
 
-				while (true) {
-					// 음료 메뉴 출력 메소드
-					oc.SelectBeverageAll();
+					while (true) {
+						// 음료 메뉴 출력 메소드
+						oc.SelectBeverageAll();
 
-					// 안내 출력
-					System.out.println(guidTmp);
-					System.out.println(guidChange);
+						// 안내 출력
+						System.out.println(guidTmp);
+						System.out.println(guidChange);
 
-					// 코드 입력받기
-					menuSelectStr = br.readLine();
+						// 코드 입력받기
+						menuSelectStr = br.readLine();
 
-					if (menuSelectStr.equalsIgnoreCase("U")) { // 업데이트
-						productUpdate();
-					} else if (menuSelectStr.equalsIgnoreCase("D")) { // 삭제
-						productDelete();
-					} else if (menuSelectStr.equalsIgnoreCase("I")) { // 추가
-						productInsert();
-					} else {// 코드 다시 입력받기
-						System.out.println(guidErr);
-						continue;
-					} // while.if
+						if (menuSelectStr.equalsIgnoreCase("U")) { // 업데이트
+							productUpdate();
+						} else if (menuSelectStr.equalsIgnoreCase("D")) { // 삭제
+							productDelete();
+						} else if (menuSelectStr.equalsIgnoreCase("I")) { // 추가
+							productInsert();
+						} else {// 코드 다시 입력받기
+							System.out.println(guidErr);
+							continue;
+						} // while.if
 
-					break; // 선택 완료후 빠져나오기
-				} // while 커피 메뉴
+						break; // 선택 완료후 빠져나오기
+					} // while 커피 메뉴
 
-			} else if (menuSelectNum == 3) {// 디저트 관리
+				} else if (menuSelectNum == 3) {// 디저트 관리
 
-				while (true) {
-					// 디저트 메뉴 출력 메소드
-					oc.SelectDessertAll();
+					while (true) {
+						// 디저트 메뉴 출력 메소드
+						oc.SelectDessertAll();
 
-					// 안내 출력
-					System.out.println(guidTmp);
-					System.out.println(guidChange);
+						// 안내 출력
+						System.out.println(guidTmp);
+						System.out.println(guidChange);
 
-					// 코드 입력받기
-					menuSelectStr = br.readLine();
+						// 코드 입력받기
+						menuSelectStr = br.readLine();
 
-					if (menuSelectStr.equalsIgnoreCase("U")) { // 업데이트
-						productUpdate();
-					} else if (menuSelectStr.equalsIgnoreCase("D")) { // 삭제
-						productDelete();
-					} else if (menuSelectStr.equalsIgnoreCase("I")) { // 추가
-						productInsert();
-					} else {// 코드 다시 입력받기
-						System.out.println(guidErr);
-						continue;
-					} // while.if
+						if (menuSelectStr.equalsIgnoreCase("U")) { // 업데이트
+							productUpdate();
+						} else if (menuSelectStr.equalsIgnoreCase("D")) { // 삭제
+							productDelete();
+						} else if (menuSelectStr.equalsIgnoreCase("I")) { // 추가
+							productInsert();
+						} else {// 코드 다시 입력받기
+							System.out.println(guidErr);
+							continue;
+						} // while.if
 
-					break; // 선택 완료후 빠져나오기
-				} // while 커피 메뉴
+						break; // 선택 완료후 빠져나오기
+					} // while 커피 메뉴
 
-			} else {// 번호 다시 입력받기
-				System.out.println(guidErr);
-				continue;
-			} // while.if
+				} else {// 번호 다시 입력받기
+					System.out.println(guidErr);
+					continue;
+				} // while.if
 
-			br.close(); // 입력 종료
-			break; // 선택 완료후 빠져나오기
-		} // while
+				break; // 선택 완료후 빠져나오기
+			} // while
+		} catch (Exception e) {
+
+		}
 
 	}// productChange()
 
 	// 1.1 메뉴 update
-	public static void productUpdate() throws IOException {
+	public static void productUpdate()  {
 		// Jdbc 객체 생성
 		DB jdbc = new DB();
 
@@ -151,8 +154,6 @@ public class Admin {
 			code = Integer.parseInt(jdbc.br.readLine());
 			System.out.println("변경할 가격을 입력하세요>>> ");
 			price = Integer.parseInt(jdbc.br.readLine());
-
-			jdbc.br.close();
 
 			// 메뉴로 나누기
 			if (menu == 1) {
@@ -225,7 +226,7 @@ public class Admin {
 	} // productUpdate()
 
 	// 1.2 메뉴 insert
-	public static void productInsert() throws IOException {
+	public static void productInsert() {
 		// Jdbc 객체 생성
 		DB jdbc = new DB();
 
@@ -249,8 +250,6 @@ public class Admin {
 			name = jdbc.br.readLine();
 			System.out.println("추가할 가격을 입력하세요>>> ");
 			price = Integer.parseInt(jdbc.br.readLine());
-
-			jdbc.br.close();
 
 			// 메뉴로 나누기
 			if (menu == 1) {
@@ -342,7 +341,6 @@ public class Admin {
 			// 안내 및 코드 입력
 			System.out.println("삭제할 코드를 입력하세요>>> ");
 			code = Integer.parseInt(jdbc.br.readLine());
-			jdbc.br.close();
 
 			// 메뉴로 나누기
 			if (menu == 1) {
@@ -415,40 +413,45 @@ public class Admin {
 	}// productDelete()
 
 	// 2. 회원정보를 불러오고, 삭제가 가능함
-	public static void customerChange() throws IOException {
+	public static void customerChange()  {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // 입력 받을 준비
 
 		// 변수선언
 		String id = ""; // 아이디 입력
 		String code = ""; // 코드 입력
-
+		
 		// 실행
-		customerAllSelect(); // 회원 정보 불러오기
-		while (true) {
-			System.out.println("주문내역을 볼 회원의 아이디를 입력하세요>>> ");
-			System.out.println("(종료는 D를 입력하세요)");
-			System.out.println();
-			id = br.readLine(); // 아이디 입력
-			
-			if (id.equalsIgnoreCase("d")) {
-				break;
-			}
-			
-			selectOrderCart(id); // 회원을 선택하기후 주문내역 출력
-			
-			System.out.println("D.회원을 삭제");
-			System.out.println("(종료는 아무 키나 입력하세요)");
-			System.out.println();
-			code = br.readLine();
+		try {
+			customerAllSelect(); // 회원 정보 불러오기
+			while (true) {
+				System.out.println("주문내역을 볼 회원의 아이디를 입력하세요>>> ");
+				System.out.println("(종료는 D를 입력하세요)");
+				System.out.println();
+				id = br.readLine(); // 아이디 입력
 
-			if (code.equalsIgnoreCase("d")) { 
-				customerDelete(id); // 선택 회원을 삭제함
-			}
+				if (id.equalsIgnoreCase("d")) {
+					break;
+				}
+
+				selectOrderCart(id); // 회원을 선택하기후 주문내역 출력
+
+				System.out.println("D.회원을 삭제");
+				System.out.println("(종료는 아무 키나 입력하세요)");
+				System.out.println();
+				code = br.readLine();
+
+				if (code.equalsIgnoreCase("d")) {
+					customerDelete(id); // 선택 회원을 삭제함
+				}
+
+				break;
+				
+			}//while
+		} catch (Exception e) {
 			
-			break;
 		}
 		
-		br.close();
+		
 
 	}// customerChange()
 
@@ -770,6 +773,7 @@ public class Admin {
 			}
 			System.out.println();
 			System.out.println("총 매출>>> " + allPrice);
+			System.out.println();
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
 			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
@@ -817,7 +821,7 @@ public class Admin {
 		jdbc.br = new BufferedReader(new InputStreamReader(System.in));
 
 		// 변수 선언
-		String sql = "UPDATE customers SET customer_cupon =? WHERE customer id = 'admin'"; // sql문
+		String sql = "UPDATE customers SET customer_coupon = ? WHERE customer_id = 'admin' "; // sql문
 		int rows = 0; // 실행한 행의 수
 		int coupon = 0; // 변경할 쿠폰 가격
 
@@ -831,7 +835,7 @@ public class Admin {
 			Class.forName(jdbc.driver);
 
 			// db 연결
-			jdbc.CN	 = DriverManager.getConnection(jdbc.url, jdbc.user, jdbc.password);
+			jdbc.CN = DriverManager.getConnection(jdbc.url, jdbc.user, jdbc.password);
 
 			// prepareStatement 객체 생성
 			jdbc.PS = jdbc.CN.prepareStatement(sql);
@@ -839,7 +843,6 @@ public class Admin {
 			// 변경할 쿠폰 할인 금액 입력
 			System.out.println("변경할 쿠폰 1개당 할인 금액>>>");
 			coupon = Integer.parseInt(jdbc.br.readLine());
-			jdbc.br.close();
 
 			jdbc.PS.setInt(1, coupon);
 
@@ -849,7 +852,7 @@ public class Admin {
 			if (rows == 0) {
 				System.out.println("변경에 실패했습니다.");
 			} else {
-				System.out.printf("쿠폰 할인 금액을 %d으로 변경했습니다./n", coupon);
+				System.out.printf("쿠폰 할인 금액을 %d으로 변경했습니다.\n", coupon);
 			} // if
 			System.out.println();
 
