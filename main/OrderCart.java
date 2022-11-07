@@ -214,7 +214,7 @@ public class OrderCart {
 		try {
 
 			// 음료
-			sql = "SELECT * FROM beverage where bcode = ?";
+			sql = "SELECT * FROM beverage";
 			jdbc.mysqlCode = new String[] { "bcode", "bname", "bprice" };
 			menuStr = "음료";
 
