@@ -17,7 +17,7 @@ public class Home {
 	static String[] customerData = new String[4]; //아이디, 비밀번호, 이름, 전화번호를 담을 배열
 	
 	////////// 앱 실행 //////////
-	public static void main(String[] args) {		
+	public static void main(String[] args) {	
 		boolean sw = true;
 		while (sw) {
 			System.out.print("[1. 로그인]\t[2. 회원가입]\n>>> ");
@@ -62,7 +62,6 @@ public class Home {
 					new Admin(3000).adminPage();
 					break;
 				case "customer":
-					createCustomerObj(id, pwd);
 					System.out.println("로그인이 완료되었습니다.");
 					new OrderCart().customerPage();
 					break;
@@ -214,7 +213,7 @@ public class Home {
 			String sql = "select * from customers where customer_id=? and customer_pwd=?";
 			db.PS = db.CN.prepareStatement(sql);
 			db.PS.setString(1, id);
-			db.PS.setString(2, pwd);
+			db.PS.setString(2, encrypt(pwd));
 			db.RS = db.PS.executeQuery();
 			
 			if (db.RS.next() == false) {
@@ -222,6 +221,7 @@ public class Home {
 			} else if (db.RS.getString("customer_id").equals("admin")) {
 				return "admin";
 			} else {
+				createCustomerObj(id, pwd);
 				return "customer";
 			}
 		} catch (Exception e) {
