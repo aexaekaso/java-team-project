@@ -58,7 +58,6 @@ public class OrderCart {
 				continue;
 			} // while.if
 
-			jdbc.br.close();
 			break;
 		} // while
 
@@ -358,7 +357,6 @@ public class OrderCart {
 		System.out.println("수량을 선택하세요>>> \n(숫자를 입력하세요)"); // 다른거 치는 경우도 고려할 시, 추후 변경
 		amount1 = Integer.parseInt(jdbc.br.readLine()); // 수량 입력
 
-		jdbc.br.close();
 		// 장바구니에 넣기
 		products.add(selectProduct(code));
 		amount.add(amount1);
@@ -505,7 +503,6 @@ public class OrderCart {
 			// 수량 입력
 			System.out.println("변경할 수량을 입력하세요>>> ");
 			amount1 = Integer.parseInt(jdbc.br.readLine());
-			jdbc.br.close();
 
 			// 같은 코드시 처리
 			for (int i = 0; i < products.size(); i++) {
