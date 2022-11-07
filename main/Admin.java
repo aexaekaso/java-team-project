@@ -17,6 +17,47 @@ public class Admin {
 	}
 
 	// method
+	// 0. 관리자 화면
+		public static void adminPage() {
+			try {
+				int choice = 0;
+				boolean run = true;
+				
+				while(run) {
+					BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+					System.out.println("=======관리자 화면=======");
+					System.out.println("1. 메뉴 관리");
+					System.out.println("2. 회원 관리");
+					System.out.println("3. 매출 확인");
+					System.out.println("4. 결제 관리");
+					System.out.println("5. 종료");
+					System.out.println();
+					
+					choice = Integer.parseInt(br.readLine());
+					
+					if(choice==1) {
+						productChange();
+					}else if(choice==2) {
+						customerChange();
+					}else if(choice==3) {
+						income();
+					}else if(choice==4) {
+						couponValue();
+					}else if(choice==5) {
+						System.out.println("종료합니다.");
+						Home.main(null);
+						run = false;
+					}else {
+						System.out.println("잘못된 코드입니다.");
+						continue;
+					}//while.if
+					
+				}//while
+			} catch (Exception e) {
+				
+			}
+		}
+	
 	// 1. 메뉴관리 메서드
 	public static void productChange() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // 입력 받을 준비
@@ -159,9 +200,9 @@ public class Admin {
 			if (menu == 1) {
 				sql = "UPDATE coffee set cprice = ? WHERE ccode = ?";
 			} else if (menu == 2) {
-				sql = "UPDATE beverage set cprice = ? WHERE ccode = ?";
+				sql = "UPDATE beverage set bprice = ? WHERE bcode = ?";
 			} else if (menu == 3) {
-				sql = "UPDATE dessert set cprice = ? WHERE ccode = ?";
+				sql = "UPDATE dessert set dprice = ? WHERE dcode = ?";
 			} else {
 				System.out.println("잘못된 입력입니다.");
 			}
@@ -466,7 +507,7 @@ public class Admin {
 		String name = ""; // 고객 이름
 		String pwd = ""; // 고객 비번
 		String pwd1 = ""; // 비번 처리
-		int phone = 0; // 고객 휴대폰
+		String phone = ""; // 고객 휴대폰
 		int coupon = 0; // 고객 쿠폰
 		int couponcheck = 0; // 쿠폰 체크
 		String koFormat = "| %-7s | %-15s | %-15s | %-15s | %6s | %10d |\n"; // 출력
@@ -496,7 +537,7 @@ public class Admin {
 				id = jdbc.RS.getString("customer_id"); // 아이디
 				name = jdbc.RS.getString("customer_name"); // 이름
 				pwd = jdbc.RS.getString("customer_pwd"); // 비번
-				phone = jdbc.RS.getInt("customer_phone"); // 폰
+				phone = jdbc.RS.getString("customer_phone"); // 폰
 				coupon = jdbc.RS.getInt("customer_coupon"); // 쿠폰
 				couponcheck = jdbc.RS.getInt("customer_couponcheck"); // 쿠폰체크
 

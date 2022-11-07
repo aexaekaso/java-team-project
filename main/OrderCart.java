@@ -24,43 +24,84 @@ public class OrderCart {
 	// static이라서 필요가 없음.
 
 	// 메서드
+	// 0. 회원 화면
+	public void customerPage() {
+		try {
+			int choice = 0;
+			boolean run = true;
+			
+			while(run) {
+				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+				System.out.println("=======회원 화면=======");
+				System.out.println("1. 주문하기");
+				System.out.println("2. 장바구니");
+				System.out.println("3. 마이 페이지");
+				System.out.println("5. 종료");
+				System.out.println();
+				
+				choice = Integer.parseInt(br.readLine());
+				
+				if(choice==1) {
+					SelectProductAll();
+				}else if(choice==2) {
+					orderCartShow();
+				}else if(choice==3) {
+					//마이페이지로 go
+				}else if(choice==5) {
+					System.out.println("종료합니다.");
+					Home.main(null);
+					run = false;
+				}else {
+					System.out.println("잘못된 코드입니다.");
+					continue;
+				}//while.if
+				
+			}//while
+		} catch (Exception e) {
+			
+		}
+	}
+	
 	// 1. 메뉴 종류를 선택하고, 출력을 위한 메서드
-	public void SelectProductAll() throws NumberFormatException, IOException {
-		// Jdbc 객체 생성
-		DB jdbc = new DB();
+	public void SelectProductAll() {
+		try {
+			// Jdbc 객체 생성
+			DB jdbc = new DB();
 
-		// 변수 선언
-		int menu = 0; // 메뉴선택 코드
+			// 변수 선언
+			int menu = 0; // 메뉴선택 코드
 
-		// BufferedReader
-		jdbc.br = new BufferedReader(new InputStreamReader(System.in));
-
-		// 메뉴 선택
-		while (true) {
-			// 가이드 출력
-			System.out.println("1. 커피, 2. 음료, 3.디저트");
-			System.out.println("코드를 입력하세요(숫자)>>> ");
+			// BufferedReader
+			jdbc.br = new BufferedReader(new InputStreamReader(System.in));
 
 			// 메뉴 선택
-			menu = Integer.parseInt(jdbc.br.readLine());
-			new OrderCart().choice.add(menu);
+			while (true) {
+				// 가이드 출력
+				System.out.println("1. 커피, 2. 음료, 3.디저트");
+				System.out.println("코드를 입력하세요(숫자)>>> ");
 
-			// 처리
-			if (menu == 1) {// 커피
-				SelectCoffeeAll(); // 커피 메뉴 출력
-			} else if (menu == 2) {// 음료
-				SelectDessertAll(); // 음료 메뉴 출력
-			} else if (menu == 3) {// 디저트
-				SelectDessertAll();
-			} else {
-				System.out.println("잘못된 코드입니다.");
-				System.out.println();
-				continue;
-			} // while.if
+				// 메뉴 선택
+				menu = Integer.parseInt(jdbc.br.readLine());
+				new OrderCart().choice.add(menu);
 
-			break;
-		} // while
+				// 처리
+				if (menu == 1) {// 커피
+					SelectCoffeeAll(); // 커피 메뉴 출력
+				} else if (menu == 2) {// 음료
+					SelectDessertAll(); // 음료 메뉴 출력
+				} else if (menu == 3) {// 디저트
+					SelectDessertAll();
+				} else {
+					System.out.println("잘못된 코드입니다.");
+					System.out.println();
+					continue;
+				} // while.if
 
+				break;
+			} // while
+		} catch (Exception e) {
+			
+		}
 	}// SelectProductAll()
 
 	// 1.1 커피 메뉴 프린트
@@ -533,12 +574,39 @@ public class OrderCart {
 	}
 
 	// 4. 장바구니를 비우는 메서드
-	public void orderCartClear() {
-
+	public void orderCartClear() { // N을 입력했을때
+		products.clear();
+		amount.clear();
+		System.out.println("장바구니가 비워졌습니다.");
+		/* public static ArrayList<Product> products; // 여기에 담아서 추후에 결제
+		public static ArrayList<Integer> amount; // 수량
+		을 1. 비우고 2. 출력을 장바구니비우는 / 에리리스트로 delete */
 	}
 
 	// 5. 장바구니를 보여주는 메서드
-	public void orderCartShow() {
+	public void orderCartShow() { // 2. 장바구니 입력했을 때
+		System.out.println("============장바구니 목록============");
+		System.out.printf("| %-5d | %-15s | %-6d | %-6d |", "번호", "메뉴", "수량", "가격");
+		
+		// String coffeestring="";
+		// String beveragetring="";
+		// String dessertstring="";
+		String temp="";			
+		
+		int no=0;
+		String mene="";
+		int amount1 =0;
+		int price=0;
+		
 
+		for(int i=0; i<amount.size(); i++) {
+			no=products.get(i).code;
+			mene=products.get(i).name;
+			amount1=amount.get(i);
+			price=amount1*products.get(i).price;
+			
+			System.out.printf("| %-5d | %-15s | %-6d | %-6d |", no, mene, amount1, price); 
+			System.out.println("==================================");
+		}
 	}
 }

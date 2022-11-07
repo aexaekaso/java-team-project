@@ -1,5 +1,6 @@
 package cafe;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -58,14 +59,16 @@ public class Home {
 					continue loop;
 				case "admin":
 					System.out.println("관리자로 로그인하였습니다.");
-					/*  관리자 화면으로 이동... */
+					new Admin(3000).adminPage();
 					break;
 				case "customer":
 					createCustomerObj(id, pwd);
 					System.out.println("로그인이 완료되었습니다.");
-					/* 회원 화면으로 이동... */
+					new OrderCart().customerPage();
 					break;
 			}
+			
+//			break;
 		}
 	}
 	
@@ -211,7 +214,7 @@ public class Home {
 			String sql = "select * from customers where customer_id=? and customer_pwd=?";
 			db.PS = db.CN.prepareStatement(sql);
 			db.PS.setString(1, id);
-			db.PS.setString(2, encrypt(pwd));
+			db.PS.setString(2, pwd);
 			db.RS = db.PS.executeQuery();
 			
 			if (db.RS.next() == false) {
