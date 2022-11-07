@@ -6,6 +6,7 @@ create table coffee(
     cName varchar(10) not null,
     cPrice int not null
 );
+
 create table beverage(
 	bcode int primary key not null auto_increment,
     bName varchar(10) not null,
@@ -39,7 +40,7 @@ create table orderCart(
     foreign key (dcode) references dessert(dcode)
 );
 
-insert into customers(customer_id, customer_name, customer_pwd, customer_phone, customer_coupon) value('admin','관리자','123123', '010-1234-5678', '3000');
+insert into customers(customer_id, customer_name, customer_pwd, customer_phone, customer_coupon) value('admin','관리자','bdfbdf', '010-1234-5678', '3000');
 insert into customers(customer_id, customer_name, customer_pwd, customer_phone) value('asd','아무개','pw', '010-1234-5678'); -- 테스트용.. 사용하시고 주석처리 하세요.
 #update customers set customer_coupon = 5, customer_couponcheck = 8 where customer_id ='asd';
 select * from customers;
