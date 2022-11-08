@@ -9,7 +9,19 @@ public class Payment {
 	static int coupon = 0;
 	static int discount = 0;
 	static int coupon_check = 0;
+	static int allPrice = new OrderCart().allPrice;
+	static Customer customer = new Home().customer;
 	
+	
+	
+	public static int getAllPrice() {
+		return allPrice;
+	}
+
+	public static void setAllPrice(int allPrice) {
+		Payment.allPrice = allPrice;
+	}
+
 	public static void paymentHome() {
 		
 		try {
@@ -17,7 +29,7 @@ public class Payment {
 			
 			String sql = "SELECT customer_coupon FROM customers where customer_id=?";
 			db.PS = db.CN.prepareStatement(sql);
-			db.PS.setString(1, "asd"); //아이디 선택
+			db.PS.setString(1, customer.getId()); //아이디 선택
 			db.RS = db.PS.executeQuery();
 			
 			while(db.RS.next()) {
@@ -43,39 +55,37 @@ public class Payment {
 	}
 	
 	public static void paymentNomal() {
-		int order = 5000; //주문금액 테스트
-		System.out.println("주문 하신 총 금액 : "+order);
+		System.out.println("주문 하신 총 금액 : "+allPrice);
 		System.out.println("결제하실 금액을 입력하세요");
-		while(order!=0) {
+		while(allPrice!=0) {
 			int pay = sc.nextInt();
-			if(order==pay || order==0) {
+			if(allPrice==pay || allPrice==0) {
 				System.out.println("결제 완료 되었습니다.\n");
 				paymentAddCoupon();
 				System.out.println("영수증 출력중(내역추가해야함)\n\n\n");
 				break;
 			}
-			else if(order<pay) {
+			else if(allPrice<pay) {
 				System.out.println("주문 금액보다 결제금액이 큽니다\n다시입력하세요");
 				continue;
 			}
-			else if(order>pay) {
-				System.out.println(pay+"원 결제 되었습니다.\n남은 금액("+(order-pay)+")을 입력하세요.");
-				order -= pay;
+			else if(allPrice>pay) {
+				System.out.println(pay+"원 결제 되었습니다.\n남은 금액("+(allPrice-pay)+")을 입력하세요.");
+				allPrice -= pay;
 				continue;
 			}
 		}
 	}
 	
 	public static void paymentCoupon() throws SQLException {
-		int order = 5000; //주문금액 테스트
 		String sql = "SELECT customer_coupon FROM customers where customer_id=?";
 		String sql2 = "SELECT customer_coupon FROM customers where customer_id='admin'";
 		String sql3 = "UPDATE customers set customer_coupon = customer_coupon-? where customer_id=?";
 		db.PS = db.CN.prepareStatement(sql);
-		db.PS.setString(1, "asd");
+		db.PS.setString(1, customer.getId());
 		db.RS = db.PS.executeQuery();
 		
-		System.out.println("주문 하신 총 금액 : "+order);
+		System.out.println("주문 하신 총 금액 : "+allPrice);
 		while(db.RS.next()) {
 			coupon = db.RS.getInt("customer_coupon");
 		}
@@ -86,7 +96,7 @@ public class Payment {
 		while(db.RS.next()) {
 			discount = db.RS.getInt("customer_coupon");
 		}
-		while(order!=0) {
+		while(allPrice!=0) {
 			int coupon_sel = sc.nextInt();
 			if(coupon_sel<=0) {
 				System.out.println("일반결제를 해주세요");
@@ -94,10 +104,10 @@ public class Payment {
 			}
 			else if(coupon>=coupon_sel) {
 				System.out.println((coupon_sel*discount)+"원 차감되었습니다.");
-				if(order<(coupon_sel*discount)) {
+				if(allPrice<(coupon_sel*discount)) {
 					db.PS = db.CN.prepareStatement(sql3);
 					db.PS.setLong(1, coupon_sel);
-					db.PS.setString(2, "asd"); //아이디 선택
+					db.PS.setString(2, customer.getId()); //아이디 선택
 					db.PS.executeUpdate();
 					System.out.println("결제 완료 되었습니다.\n");
 					paymentAddCoupon();
@@ -105,15 +115,15 @@ public class Payment {
 					break;
 				}
 				
-				System.out.println("결제하실 남은 금액은 "+(order-(coupon_sel*discount))+"원 입니다.");
-				order -= (coupon_sel*discount);
+				System.out.println("결제하실 남은 금액은 "+(allPrice-(coupon_sel*discount))+"원 입니다.");
+				allPrice -= (coupon_sel*discount);
 				
 				System.out.println("결제하실 금액을 입력하세요");
 				int pay = sc.nextInt();
-				if(order==pay || order<=0) {
+				if(allPrice==pay || allPrice<=0) {
 					db.PS = db.CN.prepareStatement(sql3);
 					db.PS.setLong(1, coupon_sel);
-					db.PS.setString(2, "asd"); //아이디 선택
+					db.PS.setString(2, customer.getId()); //아이디 선택
 					db.PS.executeUpdate();
 					System.out.println("결제 완료 되었습니다.\n");
 					paymentAddCoupon();
@@ -121,13 +131,13 @@ public class Payment {
 					db.PS.close();
 					break;
 				}
-				else if(order<pay) {
+				else if(allPrice<pay) {
 					System.out.println("주문 금액보다 결제금액이 큽니다\n다시입력하세요");
 					continue;
 				}
-				else if(order>pay) {
-					System.out.println(pay+"원 결제 되었습니다.\n남은 금액("+(order-pay)+")을 입력하세요.");
-					order -= pay;
+				else if(allPrice>pay) {
+					System.out.println(pay+"원 결제 되었습니다.\n남은 금액("+(allPrice-pay)+")을 입력하세요.");
+					allPrice -= pay;
 					continue;
 				}
 			}
@@ -146,7 +156,7 @@ public class Payment {
 			String sql2 = "UPDATE customers set customer_couponcheck = customer_couponcheck+1 where customer_id=?"; //스탬프 1개 추가
 			String sql3 = "UPDATE customers set customer_couponcheck = customer_couponcheck-10, customer_coupon = customer_coupon+1 where customer_id=?"; //스탬프 10개 제거, 쿠폰 1개추가
 			db.PS = db.CN.prepareStatement(sql);
-			db.PS.setString(1, "asd");
+			db.PS.setString(1, customer.getId());
 			db.RS = db.PS.executeQuery();
 			
 			while(db.RS.next()) { //쿠폰 적립 수 확인
@@ -154,11 +164,11 @@ public class Payment {
 			}
 			System.out.println("이전 스탬프 개수 : "+coupon_check+"\n");
 			db.PS = db.CN.prepareStatement(sql2);
-			db.PS.setString(1, "asd");
+			db.PS.setString(1, customer.getId());
 			System.out.println("스탬프 1개가 추가 되었습니다.\n");
 			db.PS.executeUpdate();
 			db.PS = db.CN.prepareStatement(sql);
-			db.PS.setString(1, "asd");
+			db.PS.setString(1, customer.getId());
 			db.RS = db.PS.executeQuery();
 			while(db.RS.next()) { //쿠폰 적립 수 확인
 				coupon_check = db.RS.getInt("customer_couponcheck");
@@ -166,7 +176,7 @@ public class Payment {
 			System.out.println("현재 스탬프 개수 : "+(coupon_check)+"\n");
 			if(coupon_check == 10){
 				db.PS = db.CN.prepareStatement(sql3);
-				db.PS.setString(1, "asd"); //아이디 선택
+				db.PS.setString(1, customer.getId()); //아이디 선택
 				System.out.println("스탬프가 10개 적립되어 쿠폰 1개로 변경되었습니다.");
 				db.PS.executeUpdate();
 			}

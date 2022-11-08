@@ -11,9 +11,10 @@ import java.util.Queue;
 
 public class OrderCart {
 	// 필드 선언
-	public static ArrayList<Product> products; // 여기에 담아서 추후에 결제
-	public static ArrayList<Integer> amount; // 수량
+	public static ArrayList<Product> products = new ArrayList<Product>(); // 여기에 담아서 추후에 결제
+	public static ArrayList<Integer> amount = new ArrayList<Integer>();// 수량
 	public static Queue<Integer> choice = new LinkedList<Integer>();
+	static int allPrice=0;  //장바구니 총 가격
 
 	// 기본 생성자
 	public OrderCart() {
@@ -37,7 +38,7 @@ public class OrderCart {
 				System.out.println("1. 주문하기");
 				System.out.println("2. 장바구니");
 				System.out.println("3. 마이 페이지");
-				System.out.println("5. 종료");
+				System.out.println("4. 종료");
 				System.out.println();
 
 				choice = Integer.parseInt(br.readLine());
@@ -47,12 +48,13 @@ public class OrderCart {
 					SelectProductAll(); // 메뉴 보여주기
 					System.out.println();
 					orderCartAdd(); // 상품 선택 후 장바구니 담기
+					System.out.println("확인");
 
 				} else if (choice == 2) {// 장바구니
 					while (true) {
 						// 장바구니 보여주기
 						orderCartShow();
-
+						
 						// 코드 입력
 						System.out.println("Y.결제, N. 장바구니 비우기, C.주문변경, D.뒤로가기");
 						System.out.println("코드를 입력하세요>>>");
@@ -62,7 +64,9 @@ public class OrderCart {
 						if (choice1.equalsIgnoreCase("c")) {// 주문변경
 							orderCartChange();
 						} else if (choice1.equalsIgnoreCase("y")) {// 결제
-
+							Payment.paymentHome();
+							orderCartClear();
+							break;
 						} else if (choice1.equalsIgnoreCase("n")) {// 장바구니 비우기
 							orderCartClear();
 						} else if (choice1.equalsIgnoreCase("d")) {// 뒤로가기, 장바구니가 비워졌는데 빠져나가려면 결제만 있어서 추가함
@@ -75,7 +79,7 @@ public class OrderCart {
 
 				} else if (choice == 3) {
 					// 마이페이지로 go
-				} else if (choice == 5) {
+				} else if (choice == 4) {
 					System.out.println("종료합니다.");
 					Home.main(null);
 					run = false;
@@ -117,7 +121,7 @@ public class OrderCart {
 				if (menu == 1) {// 커피
 					SelectCoffeeAll(); // 커피 메뉴 출력
 				} else if (menu == 2) {// 음료
-					SelectDessertAll(); // 음료 메뉴 출력
+					SelectBeverageAll(); // 음료 메뉴 출력
 				} else if (menu == 3) {// 디저트
 					SelectDessertAll();
 				} else {
@@ -171,7 +175,7 @@ public class OrderCart {
 
 			// 가이드 출력
 			System.out.printf("============%s============\n", menuStr);
-			System.out.printf("| %-4s | %-15s | %-6s |\n", "코드", "이름", "가격");
+			System.out.printf("| %-7s | %-15s | %-6s |\n", "코드", "이름", "가격");
 
 			// 처리
 			while (jdbc.RS.next()) {
@@ -428,19 +432,19 @@ public class OrderCart {
 		amount1 = Integer.parseInt(jdbc.br.readLine()); // 수량 입력
 
 		// 장바구니에 넣기
-		products.add(selectProduct(code));
+		selectProduct(code);
 		amount.add(amount1);
 
 	}// orderCartAdd()
 
 	// 2.1 코드를 입력받으면, Product객체를 반환 하는 메서드
-	public static Product selectProduct(int code) {
+	public static void selectProduct(int code) {
 		// Jdbc 객체 생성
 		DB jdbc = new DB();
 
 		// 변수 선언
 		String sql = ""; // sql문
-		Product selectProduct = null; // Product 객체
+		Product selectProduct = null; // Product 객체s
 		int code1 = 0; // 코드 받기
 		String name1 = ""; // 이름 받기
 		int price1 = 0; // 가격받기
@@ -485,8 +489,7 @@ public class OrderCart {
 			jdbc.RS = jdbc.PS.executeQuery();
 
 			// Product 객체를 만들어서 담기
-
-			if (jdbc.RS.next()) {
+			while (jdbc.RS.next()) {
 				code1 = jdbc.RS.getInt(jdbc.mysqlCode[0]); // code
 				name1 = jdbc.RS.getString(jdbc.mysqlCode[1]); // name
 				price1 = jdbc.RS.getInt(jdbc.mysqlCode[2]); // price
@@ -494,22 +497,28 @@ public class OrderCart {
 				switch (menu) {
 				case 1:
 					// 커피 메뉴 담기
-					selectProduct = new Coffee(code1, name1, price1);
+					selectProduct = new Product(code1, name1, price1);
+					products.add(selectProduct);
 					break;
 				case 2:
 					// 음료 메뉴 담기
-					selectProduct = new Beverage(code1, name1, price1);
+					selectProduct = new Product(code1, name1, price1);
+					products.add(selectProduct);
 					break;
 				case 3:
 					// 디저트 메뉴 담기
-					selectProduct = new Dessert(code1, name1, price1);
+					selectProduct = new Product(code1, name1, price1);
+					products.add(selectProduct);
 					break;
 				default:
 					break;
 				}// if.switch
 
 			} // if
-
+			
+			// 장바구니에 추가하기
+//			products.add(selectProduct);
+			
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
 			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
@@ -546,9 +555,6 @@ public class OrderCart {
 
 		} // try
 
-		// 값을 리턴하고 끝내기
-		return selectProduct;
-
 	}// selectProduct(int code)
 
 	// 3. 수량을 변경 혹은 삭제하는 메서드
@@ -584,10 +590,9 @@ public class OrderCart {
 					tmp = products.get(i).code; // i번째 코드를 가져옴
 
 					if (tmp == code) {
-						amount.add(i, amount1); // 수량 변경
+						amount.set(i, amount1); // 수량 변경
 						break;
 					} // if.for.if
-
 				} // if.for
 			} else if (tmp == 2) {// 삭제시
 
@@ -613,6 +618,7 @@ public class OrderCart {
 
 	// 4. 장바구니를 비우는 메서드
 	public void orderCartClear() { // N을 입력했을때
+		allPrice = 0;
 		products.clear();
 		amount.clear();
 		System.out.println("장바구니가 비워졌습니다.");
@@ -624,7 +630,7 @@ public class OrderCart {
 	// 5. 장바구니를 보여주는 메서드
 	public void orderCartShow() { // 2. 장바구니 입력했을 때
 		System.out.println("============장바구니 목록============");
-		System.out.printf("| %-5d | %-15s | %-6d | %-6d |", "번호", "메뉴", "수량", "가격");
+		System.out.printf("| %-5s | %-15s | %-6s | %-6s |\n", "번호", "메뉴", "수량", "가격");
 		
 		// String coffeestring="";
 		// String beveragetring="";
@@ -636,15 +642,16 @@ public class OrderCart {
 		int amount1 =0;
 		int price=0;
 		
-
 		for(int i=0; i<amount.size(); i++) {
 			no=products.get(i).code;
 			mene=products.get(i).name;
 			amount1=amount.get(i);
 			price=amount1*products.get(i).price;
+			allPrice += price;
 			
-			System.out.printf("| %-5d | %-15s | %-6d | %-6d |", no, mene, amount1, price); 
-			System.out.println("==================================");
+			System.out.printf("| %-5d | %-15s | %-6d | %-6d |\n", no, mene, amount1, price); 
 		}
+		System.out.println("총 가격은>>" + allPrice);
+		new Payment().setAllPrice(allPrice);
 	}
 }

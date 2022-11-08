@@ -1,5 +1,7 @@
 package cafe;
 
+import java.util.regex.Pattern;
+
 public class Customer {
 	//필드
 	private String id;  //기본키
@@ -54,8 +56,15 @@ public class Customer {
 	//이것도 잠시 보류...
 	//출력 형태 지정
 	@Override
-	public String toString() {
-		String printFormat = "| %-5s | %-10s | %-15s | %-15s | %-6d |";
-		return String.format(printFormat, name, id, pwd, phone, coupon);
+	public String toString() {		
+		String koFormat = "| %-7s | %-15s | %-15s | %-15s | %6s |\n";
+		String enFormat = "| %-10s | %-15s | %-15s | %-15s | %6s |\n";
+		
+		if (Pattern.matches("^[가-힣]*$", name)) {
+			return String.format(koFormat, name, id, pwd, phone, coupon);
+		} else {
+			return String.format(enFormat, name, id, pwd, phone, coupon);
+		}
+		
 	}
 }

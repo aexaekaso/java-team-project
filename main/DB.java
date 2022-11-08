@@ -19,7 +19,7 @@ public class DB {
 	String user = "test"; // 사용자
 	String password = "1234"; // 암호
 	String driver = "com.mysql.cj.jdbc.Driver";
-	String[] mysqlCode; //메뉴에 따른 SQL문 저장리스트
+	String[] mysqlCode = new String[3]; //메뉴에 따른 SQL문 저장리스트
 
 	// 기본생성자
 	public DB() {
