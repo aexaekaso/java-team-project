@@ -28,9 +28,10 @@ public class OrderCart {
 	public void customerPage() {
 		try {
 			int choice = 0;
+			String choice1 = "";
 			boolean run = true;
-			
-			while(run) {
+
+			while (run) {
 				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 				System.out.println("=======회원 화면=======");
 				System.out.println("1. 주문하기");
@@ -38,29 +39,57 @@ public class OrderCart {
 				System.out.println("3. 마이 페이지");
 				System.out.println("5. 종료");
 				System.out.println();
-				
+
 				choice = Integer.parseInt(br.readLine());
-				
-				if(choice==1) {
-					SelectProductAll();
-				}else if(choice==2) {
-					orderCartShow();
-				}else if(choice==3) {
-					//마이페이지로 go
-				}else if(choice==5) {
+
+				if (choice == 1) { // 주문하기
+
+					SelectProductAll(); // 메뉴 보여주기
+					System.out.println();
+					orderCartAdd(); // 상품 선택 후 장바구니 담기
+
+				} else if (choice == 2) {// 장바구니
+					while (true) {
+						// 장바구니 보여주기
+						orderCartShow();
+
+						// 코드 입력
+						System.out.println("Y.결제, N. 장바구니 비우기, C.주문변경, D.뒤로가기");
+						System.out.println("코드를 입력하세요>>>");
+						System.out.println();
+						choice1 = br.readLine();
+
+						if (choice1.equalsIgnoreCase("c")) {// 주문변경
+							orderCartChange();
+						} else if (choice1.equalsIgnoreCase("y")) {// 결제
+
+						} else if (choice1.equalsIgnoreCase("n")) {// 장바구니 비우기
+							orderCartClear();
+						} else if (choice1.equalsIgnoreCase("d")) {// 뒤로가기, 장바구니가 비워졌는데 빠져나가려면 결제만 있어서 추가함
+							break;
+						} else {
+							System.out.println("잘못된 코드입니다.");
+							System.out.println();
+						}
+					} // if.while
+
+				} else if (choice == 3) {
+					// 마이페이지로 go
+				} else if (choice == 5) {
 					System.out.println("종료합니다.");
 					Home.main(null);
 					run = false;
-				}else {
+				} else {
 					System.out.println("잘못된 코드입니다.");
 					continue;
-				}//while.if
-				
-			}//while
+				} // while.if
+
+			} // while
 		} catch (Exception e) {
-			
+
 		}
-	}
+
+	}// customerPage()
 	
 	// 1. 메뉴 종류를 선택하고, 출력을 위한 메서드
 	public void SelectProductAll() {
@@ -523,7 +552,7 @@ public class OrderCart {
 	}// selectProduct(int code)
 
 	// 3. 수량을 변경 혹은 삭제하는 메서드
-	public void orderCartChange(int code) throws NumberFormatException, IOException {
+	public void orderCartChange() {
 		// Jdbc 객체 생성
 		DB jdbc = new DB();
 
@@ -533,45 +562,54 @@ public class OrderCart {
 		// 변수선언
 		int tmp = 0; // 임시 값
 		int amount1 = 0; // 변경 수량
+		int code = 0;
 
-		// 변경 혹은 삭제 선택
-		System.out.println("1. 수량 변경, 2. 삭제");
-		System.out.println("코드(숫자)를 입력하세요>>> ");
-		tmp = Integer.parseInt(jdbc.br.readLine()); // 값 입력
+		try {
+			// 변경 혹은 삭제 선택
+			System.out.println("변경할 상품의 코드(숫자)를 입력하세요>>> ");
+			code = Integer.parseInt(jdbc.br.readLine()); // 값 입력
 
-		// 처리
-		if (tmp == 1) { // 수량 변경 시
-			// 수량 입력
-			System.out.println("변경할 수량을 입력하세요>>> ");
-			amount1 = Integer.parseInt(jdbc.br.readLine());
+			System.out.println("1. 수량 변경, 2. 삭제");
 
-			// 같은 코드시 처리
-			for (int i = 0; i < products.size(); i++) {
-				tmp = products.get(i).code; // i번째 코드를 가져옴
+			tmp = Integer.parseInt(jdbc.br.readLine()); // 값 입력
 
-				if (tmp == code) {
-					amount.add(i, amount1); // 수량 변경
-					break;
-				} // if.for.if
+			// 처리
+			if (tmp == 1) { // 수량 변경 시
+				// 수량 입력
+				System.out.println("변경할 수량을 입력하세요>>> ");
+				amount1 = Integer.parseInt(jdbc.br.readLine());
 
-			} // if.for
-		} else if (tmp == 2) {// 삭제시
+				// 같은 코드시 처리
+				for (int i = 0; i < products.size(); i++) {
+					tmp = products.get(i).code; // i번째 코드를 가져옴
 
-			for (int i = 0; i < products.size(); i++) {
-				tmp = products.get(i).code; // i번째 코드를 가져옴
+					if (tmp == code) {
+						amount.add(i, amount1); // 수량 변경
+						break;
+					} // if.for.if
 
-				if (tmp == code) {
-					products.remove(i); // 메뉴 삭제
-					amount.remove(i); // 수량 삭제
-					break;
-				} // if.for.if
+				} // if.for
+			} else if (tmp == 2) {// 삭제시
 
-			} // if.for
-		} else {
-			System.out.println("잘못된 코드입니다.");
+				for (int i = 0; i < products.size(); i++) {
+					tmp = products.get(i).code; // i번째 코드를 가져옴
+
+					if (tmp == code) {
+						products.remove(i); // 메뉴 삭제
+						amount.remove(i); // 수량 삭제
+						break;
+					} // if.for.if
+
+				} // if.for
+			} else {
+				System.out.println("잘못된 코드입니다.");
+			} // if
+
+		} catch (Exception e) {
+
 		}
 
-	}
+	}// orderCartChange()
 
 	// 4. 장바구니를 비우는 메서드
 	public void orderCartClear() { // N을 입력했을때
