@@ -14,8 +14,10 @@ public class OrderCart {
 	public static ArrayList<Product> products = new ArrayList<Product>(); // 여기에 담아서 추후에 결제
 	public static ArrayList<Integer> amount = new ArrayList<Integer>();// 수량
 	public static Queue<Integer> choice = new LinkedList<Integer>();
-	static int allPrice=0;  //장바구니 총 가격
-
+	public static int allPrice = 0;  //장바구니 총 가격
+	static DB db = new DB(); //ordercart DB용
+	static Customer customer = Home.customer; //아이디 확인
+	
 	// 기본 생성자
 	public OrderCart() {
 
@@ -62,13 +64,26 @@ public class OrderCart {
 						choice1 = br.readLine();
 
 						if (choice1.equalsIgnoreCase("c")) {// 주문변경
+							if(allPrice == 0){
+								System.out.println("장바구니에 상품이 없습니다.");
+								continue;
+							}
 							orderCartChange();
+							break;
 						} else if (choice1.equalsIgnoreCase("y")) {// 결제
+							if(allPrice == 0){
+								System.out.println("장바구니에 상품이 없습니다.");
+								continue;
+							}
 							Payment.paymentHome();
-							orderCartClear();
 							break;
 						} else if (choice1.equalsIgnoreCase("n")) {// 장바구니 비우기
+							if(allPrice == 0){
+								System.out.println("장바구니에 상품이 없습니다.");
+								continue;
+							}
 							orderCartClear();
+							break;
 						} else if (choice1.equalsIgnoreCase("d")) {// 뒤로가기, 장바구니가 비워졌는데 빠져나가려면 결제만 있어서 추가함
 							break;
 						} else {
@@ -78,7 +93,7 @@ public class OrderCart {
 					} // if.while
 
 				} else if (choice == 3) {
-					// 마이페이지로 go
+					orderList(); //주문내역 보기
 				} else if (choice == 4) {
 					System.out.println("종료합니다.");
 					Home.main(null);
@@ -631,27 +646,88 @@ public class OrderCart {
 	public void orderCartShow() { // 2. 장바구니 입력했을 때
 		System.out.println("============장바구니 목록============");
 		System.out.printf("| %-5s | %-15s | %-6s | %-6s |\n", "번호", "메뉴", "수량", "가격");
-		
-		// String coffeestring="";
-		// String beveragetring="";
-		// String dessertstring="";
-		String temp="";			
-		
 		int no=0;
 		String mene="";
 		int amount1 =0;
 		int price=0;
-		
+		int sumPrice=0;
 		for(int i=0; i<amount.size(); i++) {
 			no=products.get(i).code;
 			mene=products.get(i).name;
 			amount1=amount.get(i);
 			price=amount1*products.get(i).price;
-			allPrice += price;
+			sumPrice += price;
 			
 			System.out.printf("| %-5d | %-15s | %-6d | %-6d |\n", no, mene, amount1, price); 
 		}
+		allPrice = sumPrice;
+		sumPrice = 0;
 		System.out.println("총 가격은>>" + allPrice);
-		new Payment().setAllPrice(allPrice);
+	}
+	// 5.1 영수증 메서드
+	public static void bill() { //영수증
+		System.out.println("============영수증============");
+		System.out.printf("| %-5s | %-15s | %-6s | %-6s |\n", "번호", "메뉴", "수량", "가격");
+		int no=0;
+		String mene="";
+		int amount1 =0;
+		int price=0;
+		int billPrice = 0;
+		for(int i=0; i<amount.size(); i++) {
+			no=products.get(i).code;
+			mene=products.get(i).name;
+			amount1=amount.get(i);
+			price=amount1*products.get(i).price;
+			billPrice += price;
+			
+			System.out.printf("| %-5d | %-15s | %-6d | %-6d |\n", no, mene, amount1, price); 
+		}
+		System.out.println("총 가격은>>" + billPrice+"\n");
+		//영수증 출력시 장바구니 초기화
+		allPrice = 0;
+		billPrice = 0;
+		products.clear();
+		amount.clear();
+	}
+	// 6. orderCart DB 입력 메서드
+	public void orderInsertDB() {
+		try {
+			db.connectDB();
+			for(int i=0; i<amount.size(); i++) {
+				String sql = "INSERT INTO orderCart(customer_id, oname, oamount, oprice, odate) VALUES(?,?,?,?,current_timestamp)";
+				db.PS = db.CN.prepareStatement(sql);
+				db.PS.setString(1, customer.getId());
+				db.PS.setString(2, products.get(i).name);
+				db.PS.setInt(3, amount.get(i));
+				db.PS.setInt(4, (amount.get(i)*products.get(i).price));
+				db.PS.executeUpdate();
+			}
+		} catch (Exception e) {
+//			System.out.println("에러");
+		}
+	}
+	// 7. 주문내역 보기
+	public void orderList() {
+		try {
+			db.connectDB();
+			int sum = 0;
+			String sql = "SELECT oname, oamount, oprice, odate FROM orderCart WHERE customer_id=?";
+			db.PS = db.CN.prepareStatement(sql);
+			db.PS.setString(1, customer.getId()); //아이디 선택
+			db.RS = db.PS.executeQuery();
+			if(db.RS.next()==false) {
+				System.out.println("주문 내역이 없습니다.");
+				customerPage();
+			}
+			db.RS = db.PS.executeQuery(); //재선언
+			System.out.println("    메뉴   / 수량/ 가격 / 결제시간");
+			while(db.RS.next()) {
+				System.out.println(db.RS.getString("oname")+" /  "+db.RS.getInt("oamount")+"  / "+db.RS.getInt("oprice")+" / "+db.RS.getTimestamp(4));
+				sum += db.RS.getInt("oprice");
+			}
+			System.out.println("총 주문한 금액 : "+sum+"원");
+		} catch (Exception e) {
+//			System.out.println("에러");
+		}
 	}
 }
