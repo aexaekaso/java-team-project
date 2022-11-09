@@ -43,6 +43,7 @@ public class Home {
 	//아이디/비밀번호 입력 및 관리자 or 회원 로그인 처리
 	public static void inputIDPWD() {
 		System.out.println("\n========== 아이디/비밀번호 입력 ==========");
+		int count = 1;
 		while (true) {
 			System.out.print("아이디를 입력해주세요.\n>>> ");
 			String id = scan.nextLine();
@@ -51,7 +52,13 @@ public class Home {
 			
 			switch (handleLogin(id, pwd)) {
 				case "empty":
-					System.out.println("아이디 또는 비밀번호를 다시 확인해주세요.\n");
+					System.out.println("아이디 또는 비밀번호를 다시 확인해주세요.");
+					System.out.printf("현재 %d회 로그인에 실패하였습니다. 3번 이상 실패하면 이전 화면으로 돌아갑니다.\n\n", count);
+					count++;
+					if (count > 3) {
+						System.out.println("3번 이상 로그인에 실패하여 이전 화면으로 돌아갑니다.\n");
+						login();
+					}
 					continue;
 				case "admin":
 					System.out.println("관리자로 로그인하였습니다.\n");
