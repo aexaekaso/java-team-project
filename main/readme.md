@@ -5,3 +5,5 @@
 DB.java 221107_00, 임규근, (필드와 기본생성자 추가)
 
 OrderCart.java, Payment.java, cafe.sql 221109 이동건 (영수증, 장바구니db, 주문내역등 추가)
+
+Home.java, MyPage.java 221110 유채원 (로그인 실패 시 뒤로가기, 비밀번호&전화번호 변경 시 현재 비밀번호&전화번호와 같은지 체크)
