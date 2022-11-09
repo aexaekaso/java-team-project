@@ -34,11 +34,7 @@ create table orderCart(
     oname varchar(30) not null,
     oamount int not null,
     oprice int not null,
-    odate datetime,
-    foreign key (customer_id) references customers(customer_id),
-    foreign key (ccode) references coffee(ccode),
-    foreign key (bcode) references beverage(bcode),
-    foreign key (dcode) references dessert(dcode)
+    odate datetime
 );
 
 insert into customers(customer_id, customer_name, customer_pwd, customer_phone, customer_coupon) value('admin','관리자','bdfbdf', '010-1234-5678', '3000'); -- 기본 쿠폰 차감가 3000원 
@@ -52,8 +48,8 @@ create table backupUpdateCustomers(
     bcustomer_name varchar(10) not null,
     bcustomer_pwd varchar(20) not null,
     bcustomer_phone varchar(20) not null,
-    bcustomer_coupon int default 0,
-    bcustomer_couponcheck int default 0,
+    bcustomer_coupon int,
+    bcustomer_couponcheck int,
     bcustomer_date datetime
 );
 #select * from backupUpdateCustomers;
@@ -62,8 +58,8 @@ create table backupDeleteCustomers(
     bdcustomer_name varchar(10) not null,
     bdcustomer_pwd varchar(20) not null,
     bdcustomer_phone varchar(20) not null,
-    bdcustomer_coupon int default 0,
-    bdcustomer_couponcheck int default 0,
+    bdcustomer_coupon int,
+    bdcustomer_couponcheck int,
     bdcustomer_date datetime
 );
 #select * from backupDeleteCustomers;
@@ -141,3 +137,6 @@ INSERT INTO dessert(dcode, dname, dprice) VALUES(317, '프로틴 블랙푸드 �
 INSERT INTO dessert(dcode, dname, dprice) VALUES(318, '카스텔라', 9500);
 INSERT INTO dessert(dcode, dname, dprice) VALUES(319, '치즈 베이글 칩', 2700);
 INSERT INTO dessert(dcode, dname, dprice) VALUES(320, '라이스 칩', 2700);
+
+select * from customers;
+select * from backupdeletecustomers;

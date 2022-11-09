@@ -4,26 +4,22 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Home {	
+	static Scanner scan = new Scanner(System.in);
 	static DB db = new DB();
 	static Customer customer = new Customer();
-	static Scanner scan = new Scanner(System.in);
 	static String[] customerData = new String[4]; //아이디, 비밀번호, 이름, 전화번호를 담을 배열
 	
 	////////// 앱 실행 //////////
 	//메인 화면
 	public static void main(String[] args) {	
-		boolean run = true;
-		while (run) {
+		while (true) {
 			System.out.print("[1. 로그인]\n[2. 회원가입]\n[3. 종료하기]\n>>> ");
 			switch (scan.nextLine()) {
-				case "1": 
-					login(); 
-					break;
-				case "2": signUp(); break;
+				case "1": login(); break;
+				case "2": signUp(); continue;
 				case "3": System.out.println("프로그램이 종료되었습니다."); System.exit(0); break;
 				default: System.out.println("잘못된 입력입니다. 다시 입력해주세요.\n"); continue;
 			}
-			run = false; 
 		}
 	}
 	
@@ -32,8 +28,7 @@ public class Home {
 	//로그인 화면
 	public static void login() {
 		System.out.println("\n========== 로그인 ==========");
-		boolean run = true;
-		while (run) {
+		while (true) {
 			System.out.print("[1. 아이디/비밀번호 입력]\n[2. 아이디 찾기]\n[3. 비밀번호 찾기]\n>>> ");
 			switch (scan.nextLine()) {
 				case "1": inputIDPWD(); break;
@@ -41,7 +36,6 @@ public class Home {
 				case "3": findPWD(); break;
 				default: System.out.println("잘못된 입력입니다. 다시 입력해주세요.\n"); continue;
 			}
-			run = false; 
 		}
 	}
 	
@@ -49,8 +43,7 @@ public class Home {
 	//아이디/비밀번호 입력 및 관리자 or 회원 로그인 처리
 	public static void inputIDPWD() {
 		System.out.println("\n========== 아이디/비밀번호 입력 ==========");
-		boolean run = true;
-		while (run) {
+		while (true) {
 			System.out.print("아이디를 입력해주세요.\n>>> ");
 			String id = scan.nextLine();
 			System.out.print("비밀번호를 입력해주세요.\n>>> ");
@@ -61,20 +54,21 @@ public class Home {
 					System.out.println("아이디 또는 비밀번호를 다시 확인해주세요.\n");
 					continue;
 				case "admin":
-					System.out.println("관리자로 로그인하였습니다.");
+					System.out.println("관리자로 로그인하였습니다.\n");
 					new Admin(3000).adminPage();
 					break;
 				case "customer":
-					System.out.println("로그인이 완료되었습니다.");
+					System.out.println("로그인이 완료되었습니다.\n");
 					new OrderCart().customerPage();
 					break;
 			}
-			run = false;
 		}
 	}
 	
 	//아이디 찾기
 	public static void findID() {
+		//틀리면 빠져나가기 추가
+		
 		System.out.println("\n========== 아이디 찾기 ==========");
 		System.out.print("이름을 입력해주세요.\n>>> ");
 		String name = scan.nextLine();
@@ -255,6 +249,7 @@ public class Home {
 				customer.setName(db.RS.getString("customer_name"));
 				customer.setPhone(db.RS.getString("customer_phone"));
 				customer.setCoupon(db.RS.getInt("customer_coupon"));
+				customer.setCouponCheck(db.RS.getInt("customer_couponCheck"));
 			}
 			
 //			System.out.println(customer);
@@ -266,7 +261,7 @@ public class Home {
 //					db.RS.getInt("customer_coupon")
 //			);
 		} catch (Exception e) {
-			System.out.println("createCustomerObj() error");
+//			System.out.println("createCustomerObj() error");
 		}
 	}
 	
@@ -326,7 +321,7 @@ public class Home {
 		return encryptedData;
 	}
 	
-	//복호하
+	//복호화
 	public static String decrypt(String data) {
 		int KEY = 2;
 		String decryptedData = "";

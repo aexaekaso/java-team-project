@@ -9,15 +9,17 @@ public class Customer {
 	private String pwd;
 	private String phone;
 	private int coupon;
+	private int couponCheck;
 	
 	//생성자
 	public Customer() {};
-	public Customer(String id, String name, String pwd, String phone, int coupon) {
+	public Customer(String id, String name, String pwd, String phone, int coupon, int couponCheck) {
 		this.id = id;
 		this.name = name;
 		this.pwd = pwd;
 		this.phone = phone;
 		this.coupon = coupon;
+		this.couponCheck = couponCheck;
 	}
 	
 	//getter & setter
@@ -51,20 +53,24 @@ public class Customer {
 	public void setCoupon(int coupon) {
 		this.coupon = coupon;
 	}
-	
+	public int getCouponCheck() {
+		return couponCheck;
+	}
+	public void setCouponCheck(int couponCheck) {
+		this.couponCheck = couponCheck;
+	}
 	
 	//이것도 잠시 보류...
 	//출력 형태 지정
 	@Override
 	public String toString() {		
-		String koFormat = "| %-7s | %-15s | %-15s | %-15s | %6s |\n";
-		String enFormat = "| %-10s | %-15s | %-15s | %-15s | %6s |\n";
+		String koFormat = "| %-7s | %-15s | %-15s | %6s | %12s |";
+		String enFormat = "| %-10s | %-15s | %-15s | %6s | %12s |";
 		
 		if (Pattern.matches("^[가-힣]*$", name)) {
-			return String.format(koFormat, name, id, pwd, phone, coupon);
+			return String.format(koFormat, name, id, phone, coupon, couponCheck);
 		} else {
-			return String.format(enFormat, name, id, pwd, phone, coupon);
+			return String.format(enFormat, name, id, phone, coupon, couponCheck);
 		}
-		
 	}
 }

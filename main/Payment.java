@@ -95,7 +95,7 @@ public class Payment {
 			paymentCoupon();
 		}
 		if (coupon >= coupon_sel) {
-			if (OrderCart.allPrice < (coupon_sel * discount)) {
+			if (OrderCart.allPrice < (coupon_sel * discount) || OrderCart.allPrice == (coupon_sel * discount)) {
 				db.PS = db.CN.prepareStatement(sql3);
 				db.PS.setLong(1, coupon_sel);
 				db.PS.setString(2, customer.getId());
@@ -174,7 +174,7 @@ public class Payment {
 			db.PS.close();
 			db.CN.close();
 		}catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 }

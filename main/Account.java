@@ -50,7 +50,7 @@ public class Account extends Customer {
 			}
 			db.PS.executeUpdate();
 			
-			System.out.println("회원가입이 완료되었습니다.");
+			System.out.println("회원가입이 완료되었습니다.\n");
 			
 			//이 부분은 마이페이지의 내 정보 보기로 가야할 듯...?
 //			String printFormat = "| %-5s | %-10s | %-15s | %-15s | %-6s |\n";
@@ -63,7 +63,7 @@ public class Account extends Customer {
 //			System.out.println("회원가입이 완료되었습니다.");
 			
 		} catch (Exception e) {
-			System.out.println("error");
+//			System.out.println("error");
 		}
 	}	
 	

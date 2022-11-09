@@ -32,7 +32,7 @@ public class DB {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			String url = "jdbc:mysql://localhost:3306/cafedb?characterEndofing=UTF-8&serverTimezone=UTC";
 			CN = DriverManager.getConnection(url, "test", "1234");
-			System.out.println("*** 데이터베이스 연결 성공 ***");  //나중에 제거
+//			System.out.println("*** 데이터베이스 연결 성공 ***");  //나중에 제거
 			
 		} catch(ClassNotFoundException e) {
 			System.out.println("JDBC Driver 로드 실패");

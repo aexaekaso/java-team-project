@@ -230,11 +230,11 @@ public class Admin {
 			} // try.if
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 			// 연결이 되어 있으면 연결 끊기
 
@@ -243,7 +243,7 @@ public class Admin {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+//					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -251,7 +251,7 @@ public class Admin {
 				try {
 					jdbc.PS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -259,7 +259,7 @@ public class Admin {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -327,11 +327,11 @@ public class Admin {
 			} // try.if
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 			// 연결이 되어 있으면 연결 끊기
 
@@ -340,7 +340,7 @@ public class Admin {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -348,7 +348,7 @@ public class Admin {
 				try {
 					jdbc.PS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -356,7 +356,7 @@ public class Admin {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -416,11 +416,11 @@ public class Admin {
 			} // try.if
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 			// 연결이 되어 있으면 연결 끊기
 
@@ -429,7 +429,7 @@ public class Admin {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -437,7 +437,7 @@ public class Admin {
 				try {
 					jdbc.PS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -445,7 +445,7 @@ public class Admin {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -548,11 +548,11 @@ public class Admin {
 			System.out.println();
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 			// 연결이 되어 있으면 연결 끊기
 
@@ -561,7 +561,7 @@ public class Admin {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -569,7 +569,7 @@ public class Admin {
 				try {
 					jdbc.stmt.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -577,7 +577,7 @@ public class Admin {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -648,11 +648,11 @@ public class Admin {
 			System.out.println("총 결제 금액>>> " + allPrice);
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 			// 연결이 되어 있으면 연결 끊기
 
@@ -661,7 +661,7 @@ public class Admin {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -669,7 +669,7 @@ public class Admin {
 				try {
 					jdbc.stmt.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -677,7 +677,7 @@ public class Admin {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -719,11 +719,11 @@ public class Admin {
 			} // try.if
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 			// 연결이 되어 있으면 연결 끊기
 
@@ -732,7 +732,7 @@ public class Admin {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -740,7 +740,7 @@ public class Admin {
 				try {
 					jdbc.PS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -748,7 +748,7 @@ public class Admin {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -817,11 +817,11 @@ public class Admin {
 			System.out.println();
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 			// 연결이 되어 있으면 연결 끊기
 
@@ -830,7 +830,7 @@ public class Admin {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -838,7 +838,7 @@ public class Admin {
 				try {
 					jdbc.stmt.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -846,7 +846,7 @@ public class Admin {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -898,11 +898,11 @@ public class Admin {
 			System.out.println();
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 			// 연결이 되어 있으면 연결 끊기
 
@@ -911,7 +911,7 @@ public class Admin {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -919,7 +919,7 @@ public class Admin {
 				try {
 					jdbc.PS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -927,7 +927,7 @@ public class Admin {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 

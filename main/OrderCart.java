@@ -93,7 +93,7 @@ public class OrderCart {
 					} // if.while
 
 				} else if (choice == 3) {
-					orderList(); //주문내역 보기
+					new MyPage().myPageHome(); //주문내역 보기
 				} else if (choice == 4) {
 					System.out.println("종료합니다.");
 					Home.main(null);
@@ -206,11 +206,11 @@ public class OrderCart {
 		} catch (
 
 		ClassNotFoundException e) { // getConnection(url, user, password);
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 					// 연결이 되어 있으면 연결 끊기
 
@@ -219,7 +219,7 @@ public class OrderCart {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -227,7 +227,7 @@ public class OrderCart {
 				try {
 					jdbc.stmt.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -235,7 +235,7 @@ public class OrderCart {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -298,11 +298,11 @@ public class OrderCart {
 		} catch (
 
 		ClassNotFoundException e) { // getConnection(url, user, password);
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 					// 연결이 되어 있으면 연결 끊기
 
@@ -311,7 +311,7 @@ public class OrderCart {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -319,7 +319,7 @@ public class OrderCart {
 				try {
 					jdbc.stmt.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -327,7 +327,7 @@ public class OrderCart {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -390,11 +390,11 @@ public class OrderCart {
 		} catch (
 
 		ClassNotFoundException e) { // getConnection(url, user, password);
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 					// 연결이 되어 있으면 연결 끊기
 
@@ -403,7 +403,7 @@ public class OrderCart {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -411,7 +411,7 @@ public class OrderCart {
 				try {
 					jdbc.stmt.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -419,7 +419,7 @@ public class OrderCart {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -535,11 +535,11 @@ public class OrderCart {
 //			products.add(selectProduct);
 			
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 			// 연결이 되어 있으면 연결 끊기
 
@@ -548,7 +548,7 @@ public class OrderCart {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -556,7 +556,7 @@ public class OrderCart {
 				try {
 					jdbc.PS.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -564,7 +564,7 @@ public class OrderCart {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -706,28 +706,5 @@ public class OrderCart {
 //			System.out.println("에러");
 		}
 	}
-	// 7. 주문내역 보기
-	public void orderList() {
-		try {
-			db.connectDB();
-			int sum = 0;
-			String sql = "SELECT oname, oamount, oprice, odate FROM orderCart WHERE customer_id=?";
-			db.PS = db.CN.prepareStatement(sql);
-			db.PS.setString(1, customer.getId()); //아이디 선택
-			db.RS = db.PS.executeQuery();
-			if(db.RS.next()==false) {
-				System.out.println("주문 내역이 없습니다.");
-				customerPage();
-			}
-			db.RS = db.PS.executeQuery(); //재선언
-			System.out.println("    메뉴   / 수량/ 가격 / 결제시간");
-			while(db.RS.next()) {
-				System.out.println(db.RS.getString("oname")+" /  "+db.RS.getInt("oamount")+"  / "+db.RS.getInt("oprice")+" / "+db.RS.getTimestamp(4));
-				sum += db.RS.getInt("oprice");
-			}
-			System.out.println("총 주문한 금액 : "+sum+"원");
-		} catch (Exception e) {
-//			System.out.println("에러");
-		}
-	}
+
 }
