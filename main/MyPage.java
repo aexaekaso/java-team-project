@@ -98,9 +98,10 @@ public class MyPage {
 					System.out.printf("변경할 비밀번호를 입력해주세요.\n>>> ");
 					String temp = scan.nextLine();
 					
-					//현재 비빌번호와 같으면 continue 처리
-					
-					if (Home.checkBlank(temp)) {
+					if (comparePwd(temp)) {
+						System.out.println("현재 사용 중인 비밀번호는 사용할 수 없습니다.");
+						continue;
+					} else if (Home.checkBlank(temp)) {
 						System.out.println("잘못된 비밀번호입니다. 다시 입력해주세요.\n");
 						continue;
 					} else if (Home.checkReconfirmPWD(temp)) {
@@ -138,9 +139,10 @@ public class MyPage {
 					System.out.printf("변경할 전화번호를 입력해주세요. 구분 단위는 '-' 입니다.\n>>> ");
 					String temp = scan.nextLine();
 					
-					//현재 전화번호와 같으면 continue 처리
-					
-					if (Home.checkPhoneFormat(temp)) {
+					if (comparePhone(temp)) {
+						System.out.println("현재 사용 중인 비밀번호는 사용할 수 없습니다.");
+						continue;
+					} else if (Home.checkPhoneFormat(temp)) {
 						System.out.println("잘못된 전화번호입니다. 다시 입력해주세요.\n");
 						continue;
 					} else {
@@ -213,7 +215,7 @@ public class MyPage {
 	//내 정보 변경 및 회원탈퇴 전에 비밀번호 입력하고 확인하는 절차
 	public boolean checkPwd() {
 		try {
-			System.out.println("현재 비밀번호를 입력해주세요.");
+			System.out.print("현재 비밀번호를 입력해주세요.\n>>> ");
 			String pwd = scan.nextLine();
 			
 			db.connectDB();
@@ -227,6 +229,44 @@ public class MyPage {
 				pass = !(Home.encrypt(pwd).equals(db.RS.getString("customer_pwd"))) ? true : false;
 			}
 			return pass;  //입력된 비밀번호가 DB의 비밀번호와 다를 경우, true
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	//비밀번호 변경 시, 현재 비밀번호와 같은지 확인
+	public boolean comparePwd(String pwd) {
+		try {
+			db.connectDB();
+			String sql = "select customer_pwd from customers where customer_id=?";
+			db.PS = db.CN.prepareStatement(sql);
+			db.PS.setString(1, customer.getId());
+			db.RS = db.PS.executeQuery();
+			
+			boolean pass = false;
+			if (db.RS.next() == true) {
+				pass = (Home.encrypt(pwd).equals(db.RS.getString("customer_pwd"))) ? true : false;
+			}
+			return pass;  //입력된 비밀번호가 현재 비밀번호와 같은 경우, true
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	//전화번호 변경 시, 현재 전화번호와 같은지 확인
+	public boolean comparePhone(String phone) {
+		try {
+			db.connectDB();
+			String sql = "select customer_phone from customers where customer_id=?";
+			db.PS = db.CN.prepareStatement(sql);
+			db.PS.setString(1, customer.getId());
+			db.RS = db.PS.executeQuery();
+			
+			boolean pass = false;
+			if (db.RS.next() == true) {
+				pass = (phone.equals(db.RS.getString("customer_phone"))) ? true : false;
+			}
+			return pass;  //입력된 전화번호가 현재 전화번호와 같은 경우, true
 		} catch (Exception e) {
 			return false;
 		}
