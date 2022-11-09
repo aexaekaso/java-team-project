@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class Admin {
 	// 필드
@@ -22,18 +24,19 @@ public class Admin {
 			try {
 				int choice = 0;
 				boolean run = true;
-				
+				System.out.println();
 				while(run) {
 					BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 					System.out.println("=======관리자 화면=======");
-					System.out.println("1. 메뉴 관리");
-					System.out.println("2. 회원 관리");
-					System.out.println("3. 매출 확인");
-					System.out.println("4. 결제 관리");
-					System.out.println("5. 종료");
-					System.out.println();
+					System.out.println("[1. 메뉴 관리]");
+					System.out.println("[2. 회원 관리]");
+					System.out.println("[3. 매출 확인]");
+					System.out.println("[4. 결제 관리]");
+					System.out.println("[5. 종료]");
+					System.out.print(">>> ");
 					
 					choice = Integer.parseInt(br.readLine());
+					System.out.println();
 					
 					if(choice==1) {
 						productChange();
@@ -45,10 +48,12 @@ public class Admin {
 						couponValue();
 					}else if(choice==5) {
 						System.out.println("종료합니다.");
+						System.out.println();
 						Home.main(null);
 						run = false;
 					}else {
 						System.out.println("잘못된 코드입니다.");
+						System.out.println();
 						continue;
 					}//while.if
 					
@@ -67,16 +72,18 @@ public class Admin {
 		int menuSelectNum = 0; // 입력 받을 숫자
 		String menuSelectStr = ""; // 입력 받을 코드
 		String guidTmp = "============================";
-		String guidChange = "U. 가격변경\nD. 메뉴삭제\nI. 메뉴 추가\n(U,D,I)코드를 입력해주세요>>> ";
+		String guidChange = "[U. 가격변경]\n[D. 메뉴삭제]\n[I. 메뉴 추가]\n(U,D,I)코드를 입력해주세요.\n>>> ";
 		String guidErr = "잘못된 입력입니다.";
 
 		try {
 			while (true) {
 				// 안내 출력
-				System.out.println("===메뉴 관리===\n1. 커피관리\n2. 음료 관리\n3. 디저트 관리\n(1~3)숫자를 입력해주세요>>>");
+				System.out.println("===메뉴 관리===");
+				System.out.print("[1. 커피관리]\n[2. 음료 관리]\n[3. 디저트 관리]\n(1~3)숫자를 입력해주세요.\n>>> ");
 
 				// 메뉴 입력
 				menuSelectNum = Integer.parseInt(br.readLine());
+				System.out.println();
 				oc.choice.add(menuSelectNum);
 
 				if (menuSelectNum == 1) {// 커피 관리
@@ -87,10 +94,12 @@ public class Admin {
 
 						// 안내 출력
 						System.out.println(guidTmp);
-						System.out.println(guidChange);
+						System.out.print(guidChange);
+
 
 						// 코드 입력받기
 						menuSelectStr = br.readLine();
+						System.out.println();
 
 						if (menuSelectStr.equalsIgnoreCase("U")) { // 업데이트
 							productUpdate();
@@ -114,10 +123,11 @@ public class Admin {
 
 						// 안내 출력
 						System.out.println(guidTmp);
-						System.out.println(guidChange);
+						System.out.print(guidChange);
 
 						// 코드 입력받기
 						menuSelectStr = br.readLine();
+						System.out.println();
 
 						if (menuSelectStr.equalsIgnoreCase("U")) { // 업데이트
 							productUpdate();
@@ -141,10 +151,11 @@ public class Admin {
 
 						// 안내 출력
 						System.out.println(guidTmp);
-						System.out.println(guidChange);
+						System.out.print(guidChange);
 
 						// 코드 입력받기
 						menuSelectStr = br.readLine();
+						System.out.println();
 
 						if (menuSelectStr.equalsIgnoreCase("U")) { // 업데이트
 							productUpdate();
@@ -154,6 +165,7 @@ public class Admin {
 							productInsert();
 						} else {// 코드 다시 입력받기
 							System.out.println(guidErr);
+							System.out.println();
 							continue;
 						} // while.if
 
@@ -162,6 +174,7 @@ public class Admin {
 
 				} else {// 번호 다시 입력받기
 					System.out.println(guidErr);
+					System.out.println();
 					continue;
 				} // while.if
 
@@ -191,10 +204,12 @@ public class Admin {
 
 		try {
 			// 안내 및 코드 입력
-			System.out.println("코드를 입력하세요>>> ");
+			System.out.print("코드를 입력하세요>>> ");
 			code = Integer.parseInt(jdbc.br.readLine());
-			System.out.println("변경할 가격을 입력하세요>>> ");
+			System.out.println();
+			System.out.print("변경할 가격을 입력하세요>>> ");
 			price = Integer.parseInt(jdbc.br.readLine());
+			System.out.println();
 
 			// 메뉴로 나누기
 			if (menu == 1) {
@@ -205,6 +220,7 @@ public class Admin {
 				sql = "UPDATE dessert set dprice = ? WHERE dcode = ?";
 			} else {
 				System.out.println("잘못된 입력입니다.");
+				System.out.println();
 			}
 
 			// jdbc 드라이버 등록
@@ -225,8 +241,10 @@ public class Admin {
 
 			if (rows == 0) {
 				System.out.println("변경에 실패했습니다.");
+				System.out.println();
 			} else {
 				System.out.println("1개 메뉴를 변경했습니다.");
+				System.out.println();
 			} // try.if
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
@@ -285,12 +303,13 @@ public class Admin {
 
 		try {
 			// 안내 및 코드 입력
-			System.out.println("추가할 코드를 입력하세요>>> ");
+			System.out.print("추가할 코드를 입력하세요>>> ");
 			code = Integer.parseInt(jdbc.br.readLine());
-			System.out.println("추가할 이름을 입력하세요>>> ");
+			System.out.print("추가할 이름을 입력하세요>>> ");
 			name = jdbc.br.readLine();
-			System.out.println("추가할 가격을 입력하세요>>> ");
+			System.out.print("추가할 가격을 입력하세요>>> ");
 			price = Integer.parseInt(jdbc.br.readLine());
+			System.out.println();
 
 			// 메뉴로 나누기
 			if (menu == 1) {
@@ -301,6 +320,7 @@ public class Admin {
 				sql = "INSERT INTO dessert(dcode, dname, dprice) VALUES(?, ?, ?)";
 			} else {
 				System.out.println("잘못된 입력입니다.");
+				System.out.println();
 			}
 
 			// jdbc 드라이버 등록
@@ -322,8 +342,10 @@ public class Admin {
 
 			if (rows == 0) {
 				System.out.println("업로드 실패했습니다.");
+				System.out.println();
 			} else {
 				System.out.println("1개 메뉴를 추가했습니다.");
+				System.out.println();
 			} // try.if
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
@@ -380,8 +402,9 @@ public class Admin {
 
 		try {
 			// 안내 및 코드 입력
-			System.out.println("삭제할 코드를 입력하세요>>> ");
+			System.out.print("삭제할 코드를 입력하세요>>> ");
 			code = Integer.parseInt(jdbc.br.readLine());
+			System.out.println();
 
 			// 메뉴로 나누기
 			if (menu == 1) {
@@ -392,6 +415,7 @@ public class Admin {
 				sql = "DELETE FROM dessert WHERE dcode = ?";
 			} else {
 				System.out.println("잘못된 입력입니다.");
+				System.out.println();
 			}
 
 			// jdbc 드라이버 등록
@@ -411,8 +435,10 @@ public class Admin {
 
 			if (rows == 0) {
 				System.out.println("삭제할 값이 없습니다");
+				System.out.println();
 			} else {
 				System.out.println("삭제가 완료되었습니다.");
+				System.out.println();
 			} // try.if
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
@@ -465,10 +491,10 @@ public class Admin {
 		try {
 			customerAllSelect(); // 회원 정보 불러오기
 			while (true) {
-				System.out.println("주문내역을 볼 회원의 아이디를 입력하세요>>> ");
-				System.out.println("(종료는 D를 입력하세요)");
-				System.out.println();
+				System.out.println("주문내역을 볼 회원의 아이디를 입력하세요.");
+				System.out.print("(종료는 D를 입력하세요)\n>>> ");
 				id = br.readLine(); // 아이디 입력
+				System.out.println();
 
 				if (id.equalsIgnoreCase("d")) {
 					break;
@@ -476,10 +502,10 @@ public class Admin {
 
 				selectOrderCart(id); // 회원을 선택하기후 주문내역 출력
 
-				System.out.println("D.회원을 삭제");
-				System.out.println("(종료는 아무 키나 입력하세요)");
-				System.out.println();
+				System.out.println("[D.회원을 삭제]");
+				System.out.print("(종료는 아무 키나 입력하세요)\n>>> ");
 				code = br.readLine();
+				System.out.println();
 
 				if (code.equalsIgnoreCase("d")) {
 					customerDelete(id); // 선택 회원을 삭제함
@@ -600,8 +626,10 @@ public class Admin {
 		int dcode = 0; // 디저트 코드 받기
 		int amount = 0; // 수량 받기
 		int allPrice = 0; // 판매금액 합계
-		Date date = null; // date 받기
-
+		Timestamp stamp = null; // date 받기
+		Date date = null;
+		String strNow ="";
+		
 		try {
 
 			// jdbc 드라이버 등록
@@ -620,12 +648,12 @@ public class Admin {
 			jdbc.RS = jdbc.PS.executeQuery();
 
 			// 결과 출력
-			String koFormat = "| %-7d | %-7d | %-7d | %-7d | %-15s | %-6d | %-6d | %-3B - %-3tA |\n";
+			String koFormat = "| %-7s | %-9d | %-9d | %-10d | %-20s | %-8d | %-8d | %-10s |\n";
 			// 주문, 커피, 음료, 디저트, 이름, 수량, 가격, 날짜(달,요일)
-			String enFormat = "| %-7s | %-7s | %-7s | %-7s | %-15s | %-6s | %-6s | %-8s |\n"; // 추후수정*********************
-			System.out.format(
-					"+---------+---------+---------+---------+-----------------+--------+--------+----------+\n");
+			String enFormat = "| %-5s | %-7s | %-7s | %-7s | %-22s | %-6s | %-6s | %-6s |\n"; // 추후 수정*********************
+			System.out.format("+---------+-----------+-----------+------------+--------------------------+----------+----------+---------------+\n");
 			System.out.printf(enFormat, "주문", "커피", "음료", "디저트", "이름", "수량", "가격", "날짜(달,요일)");
+			System.out.format("+---------+-----------+-----------+------------+--------------------------+----------+----------+---------------+\n");
 			while (jdbc.RS.next()) {
 				// 데이터 불러오기
 				ocode = jdbc.RS.getInt("ocode");
@@ -636,16 +664,21 @@ public class Admin {
 				name = jdbc.RS.getString("oname");
 				amount = jdbc.RS.getInt("oamount");
 				price = jdbc.RS.getInt("oprice");
-				date = jdbc.RS.getDate("odate");
-
+				stamp = jdbc.RS.getTimestamp("odate");
+				
+				//날짜 처리
+				date = new Date(stamp.getTime());
+				strNow = date + "";
+				
 				// 매출 합계
 				allPrice += price;
 
 				// 출력
-				System.out.printf(koFormat, ocode, ccode, bcode, name, amount, price, date);
+				System.out.printf(koFormat, ocode, ccode, bcode, dcode ,name, amount, price, date);
 			}
 			System.out.println();
 			System.out.println("총 결제 금액>>> " + allPrice);
+			System.out.println();
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
 			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
@@ -714,8 +747,10 @@ public class Admin {
 
 			if (rows == 0) {
 				System.out.println("삭제할 값이 없습니다");
+				System.out.println();
 			} else {
 				System.out.println("삭제가 완료되었습니다.");
+				System.out.println();
 			} // try.if
 
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
@@ -772,7 +807,9 @@ public class Admin {
 		int dcode = 0; // 디저트 코드 받기
 		int amount = 0; // 수량 받기
 		int allPrice = 0; // 판매금액 합계
-		Date date = null; // date 받기
+		Timestamp stamp = null; // date 받기
+		Date date = null;
+		String strNowDate="";
 
 		try {
 			// jdbc 드라이버 등록
@@ -788,12 +825,12 @@ public class Admin {
 			jdbc.RS = jdbc.stmt.executeQuery(sql);
 
 			// 결과 출력
-			String koFormat = "| %-7d | %-7d | %-7d | %-7d | %-15s | %-6d | %-6d | %-3B - %-3tA |\n";
+			String koFormat = "| %-7s | %-9d | %-9d | %-9d | %-10d | %-20s | %-8d | %-8d | %-10s |\n";
 			// 주문, 커피, 음료, 디저트, 이름, 수량, 가격, 날짜(달,요일)
-			String enFormat = "| %-7s | %-7s | %-7s | %-7s | %-15s | %-6s | %-6s | %-6s |\n"; // 추후
-																								// 수정*********************
-			System.out.format("+------------+-----------------+-----------------+-----------------+--------+\n");
-			System.out.printf(enFormat, "주문", "커피", "음료", "디저트", "이름", "수량", "가격", "날짜(달,요일)");
+			String enFormat = "| %-7s | %-7s | %-7s | %-7s | %-7s | %-23s | %-6s | %-6s | %-6s |\n"; // 추후 수정*********************		
+			System.out.format("+---------+-----------+-----------+-----------+------------+---------------------------+----------+----------+---------------+\n");
+			System.out.printf(enFormat,"ID","주문", "커피", "음료", "디저트", "이름", "수량", "가격", "날짜(달,요일)");
+			System.out.format("+---------+-----------+-----------+-----------+------------+---------------------------+----------+----------+---------------+\n");
 			while (jdbc.RS.next()) {
 				// 데이터 불러오기
 				ocode = jdbc.RS.getInt("ocode");
@@ -804,13 +841,17 @@ public class Admin {
 				name = jdbc.RS.getString("oname");
 				amount = jdbc.RS.getInt("oamount");
 				price = jdbc.RS.getInt("oprice");
-				date = jdbc.RS.getDate("odate");
+				stamp = jdbc.RS.getTimestamp("odate");
+				
+				//date 값 처리
+				date = new Date(stamp.getTime());
+				strNowDate = date + ""; //TimeStamp를 str로 변환
 
 				// 매출 합계
 				allPrice += price;
 
 				// 출력
-				System.out.printf(koFormat, ocode, ccode, bcode, name, amount, price, date);
+				System.out.printf(koFormat, id, ocode, ccode, bcode,dcode, name, amount, price, strNowDate);
 			}
 			System.out.println();
 			System.out.println("총 매출>>> " + allPrice);
@@ -882,18 +923,23 @@ public class Admin {
 			jdbc.PS = jdbc.CN.prepareStatement(sql);
 
 			// 변경할 쿠폰 할인 금액 입력
-			System.out.println("변경할 쿠폰 1개당 할인 금액>>>");
+			System.out.print("변경할 쿠폰 1개당 할인 금액>>>");
 			coupon = Integer.parseInt(jdbc.br.readLine());
+			System.out.println();
 
 			jdbc.PS.setInt(1, coupon);
 
 			// sql 문장을 실행하고 결과를 리턴
 			rows = jdbc.PS.executeUpdate();
+			couponAdmin = coupon;
+			
 
 			if (rows == 0) {
 				System.out.println("변경에 실패했습니다.");
+				System.out.println();
 			} else {
 				System.out.printf("쿠폰 할인 금액을 %d으로 변경했습니다.\n", coupon);
+				System.out.println();
 			} // if
 			System.out.println();
 

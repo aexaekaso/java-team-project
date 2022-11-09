@@ -41,16 +41,16 @@ public class OrderCart {
 				System.out.println("2. 장바구니");
 				System.out.println("3. 마이 페이지");
 				System.out.println("4. 종료");
-				System.out.println();
+				System.out.print(">>> ");
 
 				choice = Integer.parseInt(br.readLine());
+				System.out.println();
 
 				if (choice == 1) { // 주문하기
 
 					SelectProductAll(); // 메뉴 보여주기
 					System.out.println();
 					orderCartAdd(); // 상품 선택 후 장바구니 담기
-					System.out.println("확인");
 
 				} else if (choice == 2) {// 장바구니
 					while (true) {
@@ -58,14 +58,15 @@ public class OrderCart {
 						orderCartShow();
 						
 						// 코드 입력
-						System.out.println("Y.결제, N. 장바구니 비우기, C.주문변경, D.뒤로가기");
-						System.out.println("코드를 입력하세요>>>");
-						System.out.println();
+						System.out.println("[Y.결제], [N. 장바구니 비우기], [C.주문변경], [D.뒤로가기]");
+						System.out.print("코드를 입력하세요>>> ");
 						choice1 = br.readLine();
+						System.out.println();
 
 						if (choice1.equalsIgnoreCase("c")) {// 주문변경
 							if(allPrice == 0){
 								System.out.println("장바구니에 상품이 없습니다.");
+								System.out.println();
 								continue;
 							}
 							orderCartChange();
@@ -73,6 +74,7 @@ public class OrderCart {
 						} else if (choice1.equalsIgnoreCase("y")) {// 결제
 							if(allPrice == 0){
 								System.out.println("장바구니에 상품이 없습니다.");
+								System.out.println();
 								continue;
 							}
 							Payment.paymentHome();
@@ -80,6 +82,7 @@ public class OrderCart {
 						} else if (choice1.equalsIgnoreCase("n")) {// 장바구니 비우기
 							if(allPrice == 0){
 								System.out.println("장바구니에 상품이 없습니다.");
+								System.out.println();
 								continue;
 							}
 							orderCartClear();
@@ -96,10 +99,12 @@ public class OrderCart {
 					new MyPage().myPageHome(); //주문내역 보기
 				} else if (choice == 4) {
 					System.out.println("종료합니다.");
+					System.out.println();
 					Home.main(null);
 					run = false;
 				} else {
 					System.out.println("잘못된 코드입니다.");
+					System.out.println();
 					continue;
 				} // while.if
 
@@ -125,11 +130,12 @@ public class OrderCart {
 			// 메뉴 선택
 			while (true) {
 				// 가이드 출력
-				System.out.println("1. 커피, 2. 음료, 3.디저트");
-				System.out.println("코드를 입력하세요(숫자)>>> ");
+				System.out.println("[1. 커피], [2. 음료], [3.디저트]");
+				System.out.print("코드를 입력하세요(숫자).\n>>> ");
 
 				// 메뉴 선택
 				menu = Integer.parseInt(jdbc.br.readLine());
+				System.out.println();
 				new OrderCart().choice.add(menu);
 
 				// 처리
@@ -180,8 +186,6 @@ public class OrderCart {
 			// db 연결
 			jdbc.CN = DriverManager.getConnection(jdbc.url, jdbc.user, jdbc.password);
 
-			System.out.println("연결 성공"); // 확인용, 추후 삭제
-
 			// statement 객체 생성
 			jdbc.stmt = jdbc.CN.createStatement();
 
@@ -202,6 +206,7 @@ public class OrderCart {
 
 				System.out.println(product.toString());
 			} // while
+			System.out.println();
 
 		} catch (
 
@@ -272,8 +277,6 @@ public class OrderCart {
 			// db 연결
 			jdbc.CN = DriverManager.getConnection(jdbc.url, jdbc.user, jdbc.password);
 
-			System.out.println("연결 성공"); // 확인용, 추후 삭제
-
 			// statement 객체 생성
 			jdbc.stmt = jdbc.CN.createStatement();
 
@@ -294,6 +297,7 @@ public class OrderCart {
 
 				System.out.println(product.toString());
 			} // while
+			System.out.println();
 
 		} catch (
 
@@ -364,8 +368,6 @@ public class OrderCart {
 			// db 연결
 			jdbc.CN = DriverManager.getConnection(jdbc.url, jdbc.user, jdbc.password);
 
-			System.out.println("연결 성공"); // 확인용, 추후 삭제
-
 			// statement 객체 생성
 			jdbc.stmt = jdbc.CN.createStatement();
 
@@ -386,7 +388,7 @@ public class OrderCart {
 
 				System.out.println(product.toString());
 			} // while
-
+			System.out.println();
 		} catch (
 
 		ClassNotFoundException e) { // getConnection(url, user, password);
@@ -428,7 +430,7 @@ public class OrderCart {
 	}// SelectDessertAll()
 
 	// 2 장바구니에 담는 메서드
-	public void orderCartAdd() throws NumberFormatException, IOException {
+	public static void orderCartAdd() {
 		// Jdbc 객체 생성
 		DB jdbc = new DB();
 
@@ -438,18 +440,41 @@ public class OrderCart {
 		// 변수선언
 		int code = 0; // 코드선택
 		int amount1 = 0; // 수량
+		
+		try {
+			
+			while(true) {
+				// 코드 선택 및 수량 선택
+				System.out.print("메뉴를 선택하세요\n(코드를 입력하세요 - 숫자)\n>>>");
+				
+				while(true) {
+					code = Integer.parseInt(jdbc.br.readLine()); // 코드 입력
+					System.out.println();
+					
+					if(code<100) {
+						System.out.println("잘못된 코드입니다");
+						System.out.println();
+					}//while.while.if
+					
+					break;
+				}//while.while
+				
+				
+				break;
+			}//while
+			
 
-		// 코드 선택 및 수량 선택
-		System.out.println("메뉴를 선택하세요>>> \n(코드를 입력하세요 - 숫자)");
-		code = Integer.parseInt(jdbc.br.readLine()); // 코드 입력
+			System.out.print("수량을 선택하세요.\n(숫자를 입력하세요)\n>>>"); // 다른거 치는 경우도 고려할 시, 추후 변경
+			amount1 = Integer.parseInt(jdbc.br.readLine()); // 수량 입력
+			System.out.println();
 
-		System.out.println("수량을 선택하세요>>> \n(숫자를 입력하세요)"); // 다른거 치는 경우도 고려할 시, 추후 변경
-		amount1 = Integer.parseInt(jdbc.br.readLine()); // 수량 입력
+			// 장바구니에 넣기
+			selectProduct(code);
+			amount.add(amount1);
+		} catch (Exception e) {
 
-		// 장바구니에 넣기
-		selectProduct(code);
-		amount.add(amount1);
-
+		}
+		
 	}// orderCartAdd()
 
 	// 2.1 코드를 입력받으면, Product객체를 반환 하는 메서드
@@ -483,6 +508,8 @@ public class OrderCart {
 			break;
 		default:
 			System.out.println("잘못된 코드입니다.");
+			System.out.println();
+			orderCartAdd();
 			break;
 		}
 		try {
@@ -491,8 +518,6 @@ public class OrderCart {
 
 			// db 연결
 			jdbc.CN = DriverManager.getConnection(jdbc.url, jdbc.user, jdbc.password);
-
-			System.out.println("연결 성공"); // 확인용, 추후 삭제
 
 			// prepareStatement 객체 생성
 			jdbc.PS = jdbc.CN.prepareStatement(sql);
@@ -587,18 +612,21 @@ public class OrderCart {
 
 		try {
 			// 변경 혹은 삭제 선택
-			System.out.println("변경할 상품의 코드(숫자)를 입력하세요>>> ");
+			System.out.print("변경할 상품의 코드(숫자)를 입력하세요.\n>>> ");
 			code = Integer.parseInt(jdbc.br.readLine()); // 값 입력
+			System.out.println();
 
-			System.out.println("1. 수량 변경, 2. 삭제");
+			System.out.print("[1. 수량 변경], [2. 삭제]\n>>>");
 
 			tmp = Integer.parseInt(jdbc.br.readLine()); // 값 입력
+			System.out.println();
 
 			// 처리
 			if (tmp == 1) { // 수량 변경 시
 				// 수량 입력
-				System.out.println("변경할 수량을 입력하세요>>> ");
+				System.out.print("변경할 수량을 입력하세요.\n>>> ");
 				amount1 = Integer.parseInt(jdbc.br.readLine());
+				System.out.println();
 
 				// 같은 코드시 처리
 				for (int i = 0; i < products.size(); i++) {
@@ -623,6 +651,7 @@ public class OrderCart {
 				} // if.for
 			} else {
 				System.out.println("잘못된 코드입니다.");
+				System.out.println();
 			} // if
 
 		} catch (Exception e) {
@@ -637,6 +666,7 @@ public class OrderCart {
 		products.clear();
 		amount.clear();
 		System.out.println("장바구니가 비워졌습니다.");
+		System.out.println();
 		/* public static ArrayList<Product> products; // 여기에 담아서 추후에 결제
 		public static ArrayList<Integer> amount; // 수량
 		을 1. 비우고 2. 출력을 장바구니비우는 / 에리리스트로 delete */
@@ -662,7 +692,9 @@ public class OrderCart {
 		}
 		allPrice = sumPrice;
 		sumPrice = 0;
+		System.out.println();
 		System.out.println("총 가격은>>" + allPrice);
+		System.out.println();
 	}
 	// 5.1 영수증 메서드
 	public static void bill() { //영수증
@@ -683,12 +715,14 @@ public class OrderCart {
 			System.out.printf("| %-5d | %-15s | %-6d | %-6d |\n", no, mene, amount1, price); 
 		}
 		System.out.println("총 가격은>>" + billPrice+"\n");
+		System.out.println();
 		//영수증 출력시 장바구니 초기화
 		allPrice = 0;
 		billPrice = 0;
 		products.clear();
 		amount.clear();
-	}
+	}//bill()
+	
 	// 6. orderCart DB 입력 메서드
 	public void orderInsertDB() {
 		try {
@@ -705,6 +739,6 @@ public class OrderCart {
 		} catch (Exception e) {
 //			System.out.println("에러");
 		}
-	}
+	}//orderInsertDB()
 
 }

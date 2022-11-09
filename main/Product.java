@@ -21,12 +21,7 @@ public class Product {
 	//toString 오버라이딩
 	@Override
 	public String toString() {
-		int tmp =this.name.length();
 		
-		while(tmp<13) {
-			name +=" ";
-			tmp++;
-		}
 		String printFormat = "| %-9d | %-15s | %-6d |";
 		return String.format(printFormat, code, name, price);
 	}
