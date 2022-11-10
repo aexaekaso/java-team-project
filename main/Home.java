@@ -1,5 +1,9 @@
 package cafe;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -62,7 +66,7 @@ public class Home {
 					continue;
 				case "admin":
 					System.out.println("관리자로 로그인하였습니다.\n");
-					new Admin(3000).adminPage();
+					adminInfo().adminPage();
 					break;
 				case "customer":
 					System.out.println("로그인이 완료되었습니다.\n");
@@ -337,4 +341,37 @@ public class Home {
 		}
 		return decryptedData;
 	}
+	
+	//////// 관리자 정보 받기 /////////////
+	//아이디가 중복인지 체크
+		public static Admin adminInfo() {
+			
+			int coupon = 0;
+			Admin admin = null;
+			
+			try {
+				
+				
+				
+				db.connectDB();
+				String sql = "SELECT customer_coupon FROM customers WHERE customer_id = 'admin'";
+				db.PS = db.CN.prepareStatement(sql);
+				db.RS = db.PS.executeQuery();
+
+				
+				if (db.RS.next() == true) {
+					coupon = db.RS.getInt("customer_coupon");
+					admin = new Admin(coupon);
+					admin.couponAdmin = coupon;
+					
+				}//
+
+			} catch (Exception e) {
+
+			}//try
+			
+			return admin;
+			
+		}//adminInfo()
+	
 }

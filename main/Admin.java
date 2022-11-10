@@ -72,7 +72,7 @@ public class Admin {
 		int menuSelectNum = 0; // 입력 받을 숫자
 		String menuSelectStr = ""; // 입력 받을 코드
 		String guidTmp = "============================";
-		String guidChange = "[U. 가격변경]\n[D. 메뉴삭제]\n[I. 메뉴 추가]\n(U,D,I)코드를 입력해주세요.\n>>> ";
+		String guidChange = "[U. 가격변경]\n[D. 메뉴삭제]\n[I. 메뉴 추가]\n[Q. 뒤로가기]\n(U,D,I,D)코드를 입력해주세요.\n>>> ";
 		String guidErr = "잘못된 입력입니다.";
 
 		try {
@@ -107,7 +107,9 @@ public class Admin {
 							productDelete();
 						} else if (menuSelectStr.equalsIgnoreCase("I")) { // 추가
 							productInsert();
-						} else {// 코드 다시 입력받기
+						} else if(menuSelectStr.equalsIgnoreCase("Q")) { // 뒤로가기
+							break;
+						}else {// 코드 다시 입력받기
 							System.out.println(guidErr);
 							continue;
 						} // while.if
@@ -135,6 +137,8 @@ public class Admin {
 							productDelete();
 						} else if (menuSelectStr.equalsIgnoreCase("I")) { // 추가
 							productInsert();
+						} else if(menuSelectStr.equalsIgnoreCase("Q")) { // 뒤로가기
+							break;
 						} else {// 코드 다시 입력받기
 							System.out.println(guidErr);
 							continue;
@@ -163,6 +167,8 @@ public class Admin {
 							productDelete();
 						} else if (menuSelectStr.equalsIgnoreCase("I")) { // 추가
 							productInsert();
+						} else if(menuSelectStr.equalsIgnoreCase("Q")) { // 뒤로가기
+							break;
 						} else {// 코드 다시 입력받기
 							System.out.println(guidErr);
 							System.out.println();
@@ -621,9 +627,6 @@ public class Admin {
 		String name = ""; // 상품 이름 받기
 		int price = 0; // 가격받기
 		int ocode = 0; // 주문 코드 받기
-		int ccode = 0; // 커피 코드 받기
-		int bcode = 0; // 음료 코드 받기
-		int dcode = 0; // 디저트 코드 받기
 		int amount = 0; // 수량 받기
 		int allPrice = 0; // 판매금액 합계
 		Timestamp stamp = null; // date 받기
@@ -648,19 +651,16 @@ public class Admin {
 			jdbc.RS = jdbc.PS.executeQuery();
 
 			// 결과 출력
-			String koFormat = "| %-7s | %-9d | %-9d | %-10d | %-20s | %-8d | %-8d | %-10s |\n";
+			String koFormat = "| %-7s | %-20s | %-8d | %-8d | %-10s |\n";
 			// 주문, 커피, 음료, 디저트, 이름, 수량, 가격, 날짜(달,요일)
-			String enFormat = "| %-5s | %-7s | %-7s | %-7s | %-22s | %-6s | %-6s | %-6s |\n"; // 추후 수정*********************
+			String enFormat = "| %-5s | %-22s | %-6s | %-6s | %-6s |\n"; // 추후 수정*********************
 			System.out.format("+---------+-----------+-----------+------------+--------------------------+----------+----------+---------------+\n");
-			System.out.printf(enFormat, "주문", "커피", "음료", "디저트", "이름", "수량", "가격", "날짜(달,요일)");
+			System.out.printf(enFormat, "주문", "이름", "수량", "가격", "날짜(달,요일)");
 			System.out.format("+---------+-----------+-----------+------------+--------------------------+----------+----------+---------------+\n");
 			while (jdbc.RS.next()) {
 				// 데이터 불러오기
 				ocode = jdbc.RS.getInt("ocode");
 				id = jdbc.RS.getString("customer_id");
-				ccode = jdbc.RS.getInt("ccode");
-				bcode = jdbc.RS.getInt("bcode");
-				dcode = jdbc.RS.getInt("dcode");
 				name = jdbc.RS.getString("oname");
 				amount = jdbc.RS.getInt("oamount");
 				price = jdbc.RS.getInt("oprice");
@@ -674,7 +674,7 @@ public class Admin {
 				allPrice += price;
 
 				// 출력
-				System.out.printf(koFormat, ocode, ccode, bcode, dcode ,name, amount, price, date);
+				System.out.printf(koFormat, ocode,name, amount, price, date);
 			}
 			System.out.println();
 			System.out.println("총 결제 금액>>> " + allPrice);
@@ -802,9 +802,6 @@ public class Admin {
 		String id = ""; // id 받기
 		int price = 0; // 가격받기
 		int ocode = 0; // 주문 코드 받기
-		int ccode = 0; // 커피 코드 받기
-		int bcode = 0; // 음료 코드 받기
-		int dcode = 0; // 디저트 코드 받기
 		int amount = 0; // 수량 받기
 		int allPrice = 0; // 판매금액 합계
 		Timestamp stamp = null; // date 받기
@@ -825,19 +822,16 @@ public class Admin {
 			jdbc.RS = jdbc.stmt.executeQuery(sql);
 
 			// 결과 출력
-			String koFormat = "| %-7s | %-9d | %-9d | %-9d | %-10d | %-20s | %-8d | %-8d | %-10s |\n";
+			String koFormat = "| %-7s | %-10d | %-20s | %-8d | %-8d | %-10s |\n";
 			// 주문, 커피, 음료, 디저트, 이름, 수량, 가격, 날짜(달,요일)
-			String enFormat = "| %-7s | %-7s | %-7s | %-7s | %-7s | %-23s | %-6s | %-6s | %-6s |\n"; // 추후 수정*********************		
-			System.out.format("+---------+-----------+-----------+-----------+------------+---------------------------+----------+----------+---------------+\n");
-			System.out.printf(enFormat,"ID","주문", "커피", "음료", "디저트", "이름", "수량", "가격", "날짜(달,요일)");
-			System.out.format("+---------+-----------+-----------+-----------+------------+---------------------------+----------+----------+---------------+\n");
+			String enFormat = "| %-7s | %-7s | %-23s | %-6s | %-6s | %-6s |\n"; // 추후 수정*********************		
+			System.out.format("+---------+------------+---------------------------+----------+----------+---------------+\n");
+			System.out.printf(enFormat,"ID","주문", "이름", "수량", "가격", "날짜(달,요일)");
+			System.out.format("+---------+------------+---------------------------+----------+----------+---------------+\n");
 			while (jdbc.RS.next()) {
 				// 데이터 불러오기
 				ocode = jdbc.RS.getInt("ocode");
 				id = jdbc.RS.getString("customer_id");
-				ccode = jdbc.RS.getInt("ccode");
-				bcode = jdbc.RS.getInt("bcode");
-				dcode = jdbc.RS.getInt("dcode");
 				name = jdbc.RS.getString("oname");
 				amount = jdbc.RS.getInt("oamount");
 				price = jdbc.RS.getInt("oprice");
@@ -851,7 +845,7 @@ public class Admin {
 				allPrice += price;
 
 				// 출력
-				System.out.printf(koFormat, id, ocode, ccode, bcode,dcode, name, amount, price, strNowDate);
+				System.out.printf(koFormat, id, ocode,name, amount, price, strNowDate);
 			}
 			System.out.println();
 			System.out.println("총 매출>>> " + allPrice);

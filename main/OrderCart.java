@@ -12,12 +12,13 @@ import java.util.Queue;
 public class OrderCart {
 	// 필드 선언
 	public static ArrayList<Product> products = new ArrayList<Product>(); // 여기에 담아서 추후에 결제
+	public static ArrayList<Integer> menuCode = new ArrayList<Integer>(); // 메뉴 코드들만 담아 놓음
 	public static ArrayList<Integer> amount = new ArrayList<Integer>();// 수량
 	public static Queue<Integer> choice = new LinkedList<Integer>();
-	public static int allPrice = 0;  //장바구니 총 가격
-	static DB db = new DB(); //ordercart DB용
-	static Customer customer = Home.customer; //아이디 확인
-	
+	public static int allPrice = 0; // 장바구니 총 가격
+	static DB db = new DB(); // ordercart DB용
+	static Customer customer = Home.customer; // 아이디 확인
+
 	// 기본 생성자
 	public OrderCart() {
 
@@ -56,7 +57,7 @@ public class OrderCart {
 					while (true) {
 						// 장바구니 보여주기
 						orderCartShow();
-						
+
 						// 코드 입력
 						System.out.println("[Y.결제], [N. 장바구니 비우기], [C.주문변경], [D.뒤로가기]");
 						System.out.print("코드를 입력하세요>>> ");
@@ -64,7 +65,7 @@ public class OrderCart {
 						System.out.println();
 
 						if (choice1.equalsIgnoreCase("c")) {// 주문변경
-							if(allPrice == 0){
+							if (allPrice == 0) {
 								System.out.println("장바구니에 상품이 없습니다.");
 								System.out.println();
 								continue;
@@ -72,7 +73,7 @@ public class OrderCart {
 							orderCartChange();
 							break;
 						} else if (choice1.equalsIgnoreCase("y")) {// 결제
-							if(allPrice == 0){
+							if (allPrice == 0) {
 								System.out.println("장바구니에 상품이 없습니다.");
 								System.out.println();
 								continue;
@@ -80,7 +81,7 @@ public class OrderCart {
 							Payment.paymentHome();
 							break;
 						} else if (choice1.equalsIgnoreCase("n")) {// 장바구니 비우기
-							if(allPrice == 0){
+							if (allPrice == 0) {
 								System.out.println("장바구니에 상품이 없습니다.");
 								System.out.println();
 								continue;
@@ -96,7 +97,7 @@ public class OrderCart {
 					} // if.while
 
 				} else if (choice == 3) {
-					new MyPage().myPageHome(); //주문내역 보기
+					new MyPage().myPageHome(); // 주문내역 보기
 				} else if (choice == 4) {
 					System.out.println("종료합니다.");
 					System.out.println();
@@ -114,7 +115,7 @@ public class OrderCart {
 		}
 
 	}// customerPage()
-	
+
 	// 1. 메뉴 종류를 선택하고, 출력을 위한 메서드
 	public void SelectProductAll() {
 		try {
@@ -123,6 +124,7 @@ public class OrderCart {
 
 			// 변수 선언
 			int menu = 0; // 메뉴선택 코드
+			String tmp = ""; //숫자인지 파악
 
 			// BufferedReader
 			jdbc.br = new BufferedReader(new InputStreamReader(System.in));
@@ -134,9 +136,22 @@ public class OrderCart {
 				System.out.print("코드를 입력하세요(숫자).\n>>> ");
 
 				// 메뉴 선택
-				menu = Integer.parseInt(jdbc.br.readLine());
+				tmp = jdbc.br.readLine();
 				System.out.println();
-				new OrderCart().choice.add(menu);
+				
+				if(isNumeric(tmp)) {
+					menu = Integer.parseInt(tmp);
+				}else {
+					System.out.println("잘못된 코드입니다.");
+					System.out.println();
+					continue;
+				}
+				
+				if(!choice.isEmpty()) {
+					choice.clear();
+				}
+				
+				choice.add(menu);
 
 				// 처리
 				if (menu == 1) {// 커피
@@ -154,7 +169,7 @@ public class OrderCart {
 				break;
 			} // while
 		} catch (Exception e) {
-			
+
 		}
 	}// SelectProductAll()
 
@@ -196,13 +211,18 @@ public class OrderCart {
 			System.out.printf("============%s============\n", menuStr);
 			System.out.printf("| %-7s | %-15s | %-6s |\n", "코드", "이름", "가격");
 
+			if (!menuCode.isEmpty()) { // 코드리스트에 담겨있으면 제거
+				menuCode.clear();
+			}
+
 			// 처리
 			while (jdbc.RS.next()) {
 				code = jdbc.RS.getInt(jdbc.mysqlCode[0]); // code
 				name = jdbc.RS.getString(jdbc.mysqlCode[1]); // name
 				price = jdbc.RS.getInt(jdbc.mysqlCode[2]); // price
 
-				product = new Product(code, name, price);
+				product = new Product(code, name, price); // 객체 생성
+				menuCode.add(code); // 코드리스트에 코드 담기
 
 				System.out.println(product.toString());
 			} // while
@@ -211,11 +231,11 @@ public class OrderCart {
 		} catch (
 
 		ClassNotFoundException e) { // getConnection(url, user, password);
-			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 					// 연결이 되어 있으면 연결 끊기
 
@@ -224,7 +244,7 @@ public class OrderCart {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -232,7 +252,7 @@ public class OrderCart {
 				try {
 					jdbc.stmt.close();
 				} catch (SQLException e) {
-					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -240,7 +260,7 @@ public class OrderCart {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -287,6 +307,10 @@ public class OrderCart {
 			System.out.printf("============%s============\n", menuStr);
 			System.out.printf("| %-4s | %-15s | %-6s |\n", "코드", "이름", "가격");
 
+			if (!menuCode.isEmpty()) { // 코드리스트에 담겨있으면 제거
+				menuCode.clear();
+			}
+
 			// 처리
 			while (jdbc.RS.next()) {
 				code = jdbc.RS.getInt(jdbc.mysqlCode[0]); // code
@@ -294,6 +318,7 @@ public class OrderCart {
 				price = jdbc.RS.getInt(jdbc.mysqlCode[2]); // price
 
 				product = new Product(code, name, price);
+				menuCode.add(code); // 코드리스트에 코드 담기
 
 				System.out.println(product.toString());
 			} // while
@@ -302,11 +327,11 @@ public class OrderCart {
 		} catch (
 
 		ClassNotFoundException e) { // getConnection(url, user, password);
-			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 					// 연결이 되어 있으면 연결 끊기
 
@@ -315,7 +340,7 @@ public class OrderCart {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -323,7 +348,7 @@ public class OrderCart {
 				try {
 					jdbc.stmt.close();
 				} catch (SQLException e) {
-					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -331,7 +356,7 @@ public class OrderCart {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -374,6 +399,10 @@ public class OrderCart {
 			// sql 문장을 실행하고 결과를 리턴
 			jdbc.RS = jdbc.stmt.executeQuery(sql);
 
+			if (!menuCode.isEmpty()) { // 코드리스트에 담겨있으면 제거
+				menuCode.clear();
+			}
+
 			// 가이드 출력
 			System.out.printf("============%s============\n", menuStr);
 			System.out.printf("| %-4s | %-15s | %-6s |\n", "코드", "이름", "가격");
@@ -385,6 +414,7 @@ public class OrderCart {
 				price = jdbc.RS.getInt(jdbc.mysqlCode[2]); // price
 
 				product = new Product(code, name, price);
+				menuCode.add(code); // 코드리스트에 코드 담기
 
 				System.out.println(product.toString());
 			} // while
@@ -392,11 +422,11 @@ public class OrderCart {
 		} catch (
 
 		ClassNotFoundException e) { // getConnection(url, user, password);
-			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 					// 연결이 되어 있으면 연결 끊기
 
@@ -405,7 +435,7 @@ public class OrderCart {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -413,7 +443,7 @@ public class OrderCart {
 				try {
 					jdbc.stmt.close();
 				} catch (SQLException e) {
-					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -421,7 +451,7 @@ public class OrderCart {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -440,33 +470,61 @@ public class OrderCart {
 		// 변수선언
 		int code = 0; // 코드선택
 		int amount1 = 0; // 수량
-		
+		int run = 1;
+		String tmp = ""; // 숫자 유효성 검사
+
 		try {
-			
-			while(true) {
+
+			while (run == 1) {
 				// 코드 선택 및 수량 선택
 				System.out.print("메뉴를 선택하세요\n(코드를 입력하세요 - 숫자)\n>>>");
-				
-				while(true) {
-					code = Integer.parseInt(jdbc.br.readLine()); // 코드 입력
-					System.out.println();
-					
-					if(code<100) {
-						System.out.println("잘못된 코드입니다");
-						System.out.println();
-					}//while.while.if
-					
-					break;
-				}//while.while
-				
-				
-				break;
-			}//while
-			
 
-			System.out.print("수량을 선택하세요.\n(숫자를 입력하세요)\n>>>"); // 다른거 치는 경우도 고려할 시, 추후 변경
-			amount1 = Integer.parseInt(jdbc.br.readLine()); // 수량 입력
-			System.out.println();
+				tmp = jdbc.br.readLine(); // 코드 입력
+				System.out.println();
+				
+				if(isNumeric(tmp)) {
+					code = Integer.parseInt(tmp);
+				}else {
+					System.out.println("잘못된 코드입니다.");
+					System.out.println();
+					continue;
+				}
+				
+				// 코드 유효성 검사
+				for (int i : menuCode) {
+
+					if (i == code) {
+						run = 0;
+					}
+
+				} // while.for
+				
+				if(run == 1) {
+					System.out.println("잘못된 코드입니다.");
+					System.out.println();
+					continue;
+				}
+
+			} // .while
+			
+			run=1;
+			
+			while(run==1) {
+				System.out.print("수량을 선택하세요.\n(숫자를 입력하세요)\n>>>"); // 다른거 치는 경우도 고려할 시, 추후 변경
+				tmp = jdbc.br.readLine(); // 코드 입력
+				System.out.println();
+				
+				if(isNumeric(tmp)) {
+					amount1 = Integer.parseInt(tmp);
+					run = 0;
+				}else {
+					System.out.println("잘못된 코드입니다.");
+					System.out.println();
+					continue;
+				}//while.if
+
+			}
+			
 
 			// 장바구니에 넣기
 			selectProduct(code);
@@ -474,10 +532,10 @@ public class OrderCart {
 		} catch (Exception e) {
 
 		}
-		
+
 	}// orderCartAdd()
 
-	// 2.1 코드를 입력받으면, Product객체를 반환 하는 메서드
+	// 2.1 코드를 입력받으면, Product객체를 반환 하는 메서드 ***** 추후 수정 가능 *****
 	public static void selectProduct(int code) {
 		// Jdbc 객체 생성
 		DB jdbc = new DB();
@@ -490,32 +548,32 @@ public class OrderCart {
 		int price1 = 0; // 가격받기
 		int menu = new OrderCart().choice.poll(); // 선택 메뉴받기
 		boolean check = true;
-		
-		while(check) {
-			
+
+		while (check) {
+
 			switch (menu) {
 			case 1:
 				// 커피
 				sql = "SELECT * FROM coffee where ccode = ?";
 				jdbc.mysqlCode = new String[] { "ccode", "cname", "cprice" };
-				check=false;
+				check = false;
 				break;
 			case 2:
 				// 음료
 				sql = "SELECT * FROM beverage where bcode = ?";
 				jdbc.mysqlCode = new String[] { "bcode", "bname", "bprice" };
-				check=false;
+				check = false;
 				break;
 			case 3:
 				// 디저트
 				sql = "SELECT * FROM dessert where dcode = ?";
 				jdbc.mysqlCode = new String[] { "dcode", "dname", "dprice" };
-				check=false;
+				check = false;
 				break;
 			default:
 				System.out.println("잘못된 코드입니다.");
 				System.out.println();
-				//orderCartAdd();  // 맞을 때까지 선택선택
+				orderCartAdd(); // 맞을 때까지 선택선택
 				break;
 			}
 		}
@@ -562,16 +620,16 @@ public class OrderCart {
 				}// if.switch
 
 			} // if
-			
+
 			// 장바구니에 추가하기
 //			products.add(selectProduct);
-			
+
 		} catch (ClassNotFoundException e) { // getConnection(url, user, password);
-			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (SQLException e) {
-			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} catch (Exception e) {
-			//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+			// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 		} finally { // 무조건 실행되는 코드
 			// 연결이 되어 있으면 연결 끊기
 
@@ -580,7 +638,7 @@ public class OrderCart {
 				try {
 					jdbc.RS.close();
 				} catch (SQLException e) {
-					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -588,7 +646,7 @@ public class OrderCart {
 				try {
 					jdbc.PS.close();
 				} catch (SQLException e) {
-					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			} // if
 
@@ -596,7 +654,7 @@ public class OrderCart {
 				try {
 					jdbc.CN.close();
 				} catch (SQLException e) {
-					//e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
+					// e.printStackTrace(); // 프로그램이 완료된 후에 반드시 제거 또는 주석
 				}
 			}
 
@@ -674,28 +732,29 @@ public class OrderCart {
 		amount.clear();
 		System.out.println("장바구니가 비워졌습니다.");
 		System.out.println();
-		/* public static ArrayList<Product> products; // 여기에 담아서 추후에 결제
-		public static ArrayList<Integer> amount; // 수량
-		을 1. 비우고 2. 출력을 장바구니비우는 / 에리리스트로 delete */
+		/*
+		 * public static ArrayList<Product> products; // 여기에 담아서 추후에 결제 public static
+		 * ArrayList<Integer> amount; // 수량 을 1. 비우고 2. 출력을 장바구니비우는 / 에리리스트로 delete
+		 */
 	}
 
 	// 5. 장바구니를 보여주는 메서드
 	public void orderCartShow() { // 2. 장바구니 입력했을 때
 		System.out.println("============장바구니 목록============");
 		System.out.printf("| %-5s | %-15s | %-6s | %-6s |\n", "번호", "메뉴", "수량", "가격");
-		int no=0;
-		String menu="";
-		int amount1 =0;
-		int price=0;
-		int sumPrice=0;
-		for(int i=0; i<amount.size(); i++) {
-			no=products.get(i).code;
-			menu=products.get(i).name;
-			amount1=amount.get(i);
-			price=amount1*products.get(i).price;
+		int no = 0;
+		String menu = "";
+		int amount1 = 0;
+		int price = 0;
+		int sumPrice = 0;
+		for (int i = 0; i < amount.size(); i++) {
+			no = products.get(i).code;
+			menu = products.get(i).name;
+			amount1 = amount.get(i);
+			price = amount1 * products.get(i).price;
 			sumPrice += price;
-			
-			System.out.printf("| %-5d | %-15s | %-6d | %-6d |\n", no, menu, amount1, price); 
+
+			System.out.printf("| %-5d | %-15s | %-6d | %-6d |\n", no, menu, amount1, price);
 		}
 		allPrice = sumPrice;
 		sumPrice = 0;
@@ -703,49 +762,61 @@ public class OrderCart {
 		System.out.println("총 가격은>>" + allPrice);
 		System.out.println();
 	}
+
 	// 5.1 영수증 메서드
-	public static void bill() { //영수증
+	public static void bill() { // 영수증
 		System.out.println("============영수증============");
 		System.out.printf("| %-5s | %-15s | %-6s | %-6s |\n", "번호", "메뉴", "수량", "가격");
-		int no=0;
-		String mene="";
-		int amount1 =0;
-		int price=0;
+		int no = 0;
+		String mene = "";
+		int amount1 = 0;
+		int price = 0;
 		int billPrice = 0;
-		for(int i=0; i<amount.size(); i++) {
-			no=products.get(i).code;
-			mene=products.get(i).name;
-			amount1=amount.get(i);
-			price=amount1*products.get(i).price;
+		for (int i = 0; i < amount.size(); i++) {
+			no = products.get(i).code;
+			mene = products.get(i).name;
+			amount1 = amount.get(i);
+			price = amount1 * products.get(i).price;
 			billPrice += price;
-			
-			System.out.printf("| %-5d | %-15s | %-6d | %-6d |\n", no, mene, amount1, price); 
+
+			System.out.printf("| %-5d | %-15s | %-6d | %-6d |\n", no, mene, amount1, price);
 		}
-		System.out.println("총 가격은>>" + billPrice+"\n");
+		System.out.println("총 가격은>>" + billPrice + "\n");
 		System.out.println();
-		//영수증 출력시 장바구니 초기화
+		// 영수증 출력시 장바구니 초기화
 		allPrice = 0;
 		billPrice = 0;
 		products.clear();
 		amount.clear();
-	}//bill()
-	
+	}// bill()
+
 	// 6. orderCart DB 입력 메서드
 	public void orderInsertDB() {
 		try {
 			db.connectDB();
-			for(int i=0; i<amount.size(); i++) {
+			for (int i = 0; i < amount.size(); i++) {
 				String sql = "INSERT INTO orderCart(customer_id, oname, oamount, oprice, odate) VALUES(?,?,?,?,current_timestamp)";
 				db.PS = db.CN.prepareStatement(sql);
 				db.PS.setString(1, customer.getId());
 				db.PS.setString(2, products.get(i).name);
 				db.PS.setInt(3, amount.get(i));
-				db.PS.setInt(4, (amount.get(i)*products.get(i).price));
+				db.PS.setInt(4, (amount.get(i) * products.get(i).price));
 				db.PS.executeUpdate();
 			}
 		} catch (Exception e) {
 //			System.out.println("에러");
 		}
-	}//orderInsertDB()
+	}// orderInsertDB()
+	
+	// 숫자 오류 체크
+	public static boolean isNumeric(String s) {
+		  try {
+		      Double.parseDouble(s);
+		      return true;
+		  } catch(NumberFormatException e) {
+		      return false;
+		  }
+		}
+	
 
 }
