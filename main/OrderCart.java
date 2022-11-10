@@ -489,28 +489,35 @@ public class OrderCart {
 		String name1 = ""; // 이름 받기
 		int price1 = 0; // 가격받기
 		int menu = new OrderCart().choice.poll(); // 선택 메뉴받기
-
-		switch (menu) {
-		case 1:
-			// 커피
-			sql = "SELECT * FROM coffee where ccode = ?";
-			jdbc.mysqlCode = new String[] { "ccode", "cname", "cprice" };
-			break;
-		case 2:
-			// 음료
-			sql = "SELECT * FROM beverage where bcode = ?";
-			jdbc.mysqlCode = new String[] { "bcode", "bname", "bprice" };
-			break;
-		case 3:
-			// 디저트
-			sql = "SELECT * FROM dessert where dcode = ?";
-			jdbc.mysqlCode = new String[] { "dcode", "dname", "dprice" };
-			break;
-		default:
-			System.out.println("잘못된 코드입니다.");
-			System.out.println();
-			orderCartAdd();
-			break;
+		boolean check = true;
+		
+		while(check) {
+			
+			switch (menu) {
+			case 1:
+				// 커피
+				sql = "SELECT * FROM coffee where ccode = ?";
+				jdbc.mysqlCode = new String[] { "ccode", "cname", "cprice" };
+				check=false;
+				break;
+			case 2:
+				// 음료
+				sql = "SELECT * FROM beverage where bcode = ?";
+				jdbc.mysqlCode = new String[] { "bcode", "bname", "bprice" };
+				check=false;
+				break;
+			case 3:
+				// 디저트
+				sql = "SELECT * FROM dessert where dcode = ?";
+				jdbc.mysqlCode = new String[] { "dcode", "dname", "dprice" };
+				check=false;
+				break;
+			default:
+				System.out.println("잘못된 코드입니다.");
+				System.out.println();
+				//orderCartAdd();  // 맞을 때까지 선택선택
+				break;
+			}
 		}
 		try {
 			// jdbc 드라이버 등록
@@ -677,18 +684,18 @@ public class OrderCart {
 		System.out.println("============장바구니 목록============");
 		System.out.printf("| %-5s | %-15s | %-6s | %-6s |\n", "번호", "메뉴", "수량", "가격");
 		int no=0;
-		String mene="";
+		String menu="";
 		int amount1 =0;
 		int price=0;
 		int sumPrice=0;
 		for(int i=0; i<amount.size(); i++) {
 			no=products.get(i).code;
-			mene=products.get(i).name;
+			menu=products.get(i).name;
 			amount1=amount.get(i);
 			price=amount1*products.get(i).price;
 			sumPrice += price;
 			
-			System.out.printf("| %-5d | %-15s | %-6d | %-6d |\n", no, mene, amount1, price); 
+			System.out.printf("| %-5d | %-15s | %-6d | %-6d |\n", no, menu, amount1, price); 
 		}
 		allPrice = sumPrice;
 		sumPrice = 0;
