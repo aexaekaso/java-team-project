@@ -39,7 +39,11 @@ create table orderCart(
 
 insert into customers(customer_id, customer_name, customer_pwd, customer_phone, customer_coupon) value('admin','관리자','bdfbdf', '010-1234-5678', '3000'); -- 기본 쿠폰 차감가 3000원 
 insert into customers(customer_id, customer_name, customer_pwd, customer_phone) value('a','아무개','b', '010-1234-5678'); -- 아이디 a 비번 1 사용하시고 주석처리 하세요.
+insert into customers(customer_id, customer_name, customer_pwd, customer_phone) value('b','김자바','b', '010-1111-1111'); -- 아이디 a 비번 1 사용하시고 주석처리 하세요.
+insert into customers(customer_id, customer_name, customer_pwd, customer_phone) value('c','홍길동','b', '010-2222-2222'); -- 아이디 a 비번 1 사용하시고 주석처리 하세요.
 update customers set customer_coupon = 10, customer_couponcheck = 8 where customer_id ='a'; -- 쿠폰 테스트 세팅
+update customers set customer_coupon = 10, customer_couponcheck = 8 where customer_id ='b'; -- 쿠폰 테스트 세팅
+update customers set customer_coupon = 10, customer_couponcheck = 8 where customer_id ='c'; -- 쿠폰 테스트 세팅
 -- select * from customers;
 -- select * from orderCart;
 
@@ -139,4 +143,8 @@ INSERT INTO dessert(dcode, dname, dprice) VALUES(319, '치즈 베이글 칩', 27
 INSERT INTO dessert(dcode, dname, dprice) VALUES(320, '라이스 칩', 2700);
 
 select * from customers;
+select * from coffee;
+select * from beverage;
+select * from orderCart;
 select * from backupdeletecustomers;
+select * from backupUpdateCustomers;
