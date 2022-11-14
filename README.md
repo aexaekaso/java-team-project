@@ -1,28 +1,71 @@
 # 자바 미니 팀 프로젝트
 
 ### 주제
-카페 주문 어플리케이션을 자바 콘솔창으로 구현하기
+카페 주문 프로그램을 자바 콘솔 창으로 구현하기
 
-### 진행 기간
-22/10/17 ~ 22/11//11
+<br>
+
+### 개발 환경
+- `Java` : 11.0.15.1 2022-04-22 LTS
+- `Eclipse` : 2020-12 (4.18.0)
+- `MySQL` : 8.0.21
+
+<br>
+
+### 주요 기능
+- 로그인 및 아이디/비밀번호 찾기
+- 회원가입 및 회원탈퇴
+- 내 정보 조회/변경
+- 내 주문 내역 조회
+- 상품 주문 및 장바구니 기능
+- 일반 결제 및 쿠폰 결제
+- 쿠폰 적립 및 쿠폰 할인 금액 관리
+- 회원 조회/삭제
+- 메뉴 조회/변경/추가/삭제
+- 총 매출 조회
+
+<br>
 
 ### 팀원 역할
-- 유채원 : Customer 클래스, Account 클래스 구현
-- 이동건 : DB 클래스, Payment 클래스 구현
-- 임규근 : Admin 클래스 구현
-- 한소영 : OrderCart 클래스, Product(Coffee, Beverage, Dessert) 클래스 구현
+유채원 (팀장)
+- 로그인 및 아이디/비밀번호 찾기 구현
+- 회원가입 및 회원탈퇴 구현
+- 내 정보 조회/변경 구현
 
-### 간트 차트
-(업로드 예정)
+이동건 (팀원)
+- DB 클래스
+- Payment 클래스 구현
+
+임규근 (팀원)
+- Admin 클래스 구현
+
+한소영 (팀원)
+- OrderCart 클래스
+- Product(Coffee, Beverage, Dessert) 클래스 구현
+
+<br>
+
+### 진행 기간
+- 설계 : 22.10.14 ~ 22.10.28 (2주)
+- 개발 : 22.10.31 ~ 22.11.11 (2주)
+![image](https://user-images.githubusercontent.com/46701146/201675863-acc4b53b-6d95-4e24-92fc-a3b451bdd817.png)
+
+<br>
 
 ### 전체 흐름도
-![전체흐름도사진](https://user-images.githubusercontent.com/46701146/198882946-a2c3f9ed-2e07-428f-942a-3a4358fddc1d.png)
+![image](https://user-images.githubusercontent.com/46701146/201676726-6892dc48-0fb7-4ab7-87a7-7fa79bcfff89.png)
+
+<br>
 
 ### 상세 흐름도
-![상세흐름도사진](https://user-images.githubusercontent.com/46701146/198882959-07c1df06-8fdb-47ff-8ad9-5f8c582e60fe.png)
+![image](https://user-images.githubusercontent.com/46701146/201676792-c687c378-5649-4142-8237-0e79bd2f4d46.png)
+
+<br>
 
 ### 데이터베이스 설계
-![데이터베이스설계사진](https://user-images.githubusercontent.com/46701146/198882972-89319c4a-eafe-4120-974d-42aad0e5c237.png)
+![image](https://user-images.githubusercontent.com/46701146/201676876-d8c4ac0f-3b74-488d-9469-3e8dca22d292.png)
+
+<br>
 
 ### 클래스 다이어그램
-![클래스다이어그램사진](https://user-images.githubusercontent.com/46701146/198883225-178397d2-1273-4ad2-8c4e-a5eb181d0a84.png)
+![image](https://user-images.githubusercontent.com/46701146/201676978-1f364d65-1736-4282-beba-add43f3a9699.png)
