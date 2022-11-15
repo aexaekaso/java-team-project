@@ -29,19 +29,27 @@
 ### 팀원 역할
 유채원 (팀장)
 - 로그인 및 아이디/비밀번호 찾기 구현
+- 아이디/비밀번호 암호화 복호호 구현
 - 회원가입 및 회원탈퇴 구현
 - 내 정보 조회/변경 구현
+- 출력 형식 구현
 
 이동건 (팀원)
+- SQL-DB 작성
 - DB 클래스
+- 쿠폰, 스탬프 시스템 구현
 - Payment 클래스 구현
+- OrderCart 클래스
 
 임규근 (팀원)
+- SQL-DB 자료 작성
 - Admin 클래스 구현
+- OrderCart 클래스
+- Product(Coffee, Beverage, Dessert) 클래스 구현
 
 한소영 (팀원)
 - OrderCart 클래스
-- Product(Coffee, Beverage, Dessert) 클래스 구현
+
 
 <br>
 
